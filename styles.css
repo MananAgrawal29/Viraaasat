@@ -32,6 +32,35 @@ a:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 5px; }
 .menu-index { display: flex; align-items: center; gap: .9rem; padding-top: .16rem; }
 .index-arrow { color: var(--brass); font-size: 1.1rem; }
 
+/* The folios are the moving scene: three graphic sheets, layered in real 3D space. */
+.folio-stage { position: fixed; z-index: 5; inset: 0; overflow: hidden; perspective: 1300px; pointer-events: none; visibility: hidden; }
+.folio { position: absolute; top: 50%; left: 50%; width: min(34vw, 34rem); aspect-ratio: 1.28; transform-style: preserve-3d; backface-visibility: hidden; }
+.motion-ready .folio-stage { visibility: visible; }
+.motion-ready .folio { will-change: transform; }
+.folio--vellum { overflow: hidden; border: 1px solid rgb(255 255 255 / 70%); color: var(--forest); background: var(--ivory); box-shadow: 0 2.5rem 7rem rgb(0 0 0 / 38%), 0 0 0 1px rgb(25 27 24 / 10%); }
+.folio--vellum::before, .folio--vellum::after { position: absolute; inset: 1.1rem; border: 1px solid rgb(104 116 92 / 26%); content: ""; }
+.folio--vellum::after { inset: 1.35rem; border-color: rgb(198 166 107 / 42%); }
+.folio-engraving { position: absolute; right: -8%; bottom: -5%; width: 108%; height: 90%; color: var(--forest); opacity: .55; }
+.folio-orbit { position: absolute; top: 10%; right: 12%; width: 32%; aspect-ratio: 1; border: 1px solid var(--brass); border-radius: 50%; box-shadow: 0 0 0 1.4rem rgb(198 166 107 / 9%), 0 0 0 3rem rgb(198 166 107 / 5%); }
+.folio-register { position: absolute; right: 1.65rem; bottom: 1.55rem; display: flex; gap: .35rem; }
+.folio-register i { width: .28rem; height: .28rem; border: 1px solid currentColor; border-radius: 50%; opacity: .66; }
+.folio--oxide { background: transparent; box-shadow: none; }
+.folio-face { position: absolute; inset: 0; overflow: hidden; border: 1px solid rgb(241 235 221 / 58%); backface-visibility: hidden; box-shadow: 0 2rem 5rem rgb(0 0 0 / 35%); }
+.folio-face--front { color: var(--ivory); background: var(--terracotta); }
+.folio-face--back { color: var(--brass); background: var(--forest); transform: rotateY(180deg); }
+.oxide-disc { position: absolute; top: 14%; left: 13%; width: 48%; aspect-ratio: 1; border: 1px solid rgb(241 235 221 / 76%); border-radius: 50%; box-shadow: 0 0 0 1rem rgb(241 235 221 / 9%), 0 0 0 2.5rem rgb(241 235 221 / 5%); }
+.oxide-rule { position: absolute; right: 12%; bottom: 20%; width: 52%; height: 1px; background: rgb(241 235 221 / 82%); transform: rotate(-31deg); transform-origin: right center; }
+.folio-face .folio-register { color: var(--ivory); }
+.back-fold { position: absolute; inset: 0 auto 0 50%; width: 1px; background: rgb(198 166 107 / 54%); box-shadow: 0 0 0 1.2rem rgb(198 166 107 / 5%); }
+.back-orbit { position: absolute; top: 17%; right: 15%; width: 42%; aspect-ratio: 1; border: 1px solid rgb(241 235 221 / 64%); border-radius: 50%; }
+.folio--forest { overflow: hidden; border: 1px solid rgb(241 235 221 / 64%); color: var(--ivory); background: var(--forest); box-shadow: 0 2rem 6rem rgb(0 0 0 / 36%); }
+.forest-window { position: absolute; top: 12%; right: 13%; width: 42%; height: 70%; border: 1px solid rgb(241 235 221 / 75%); }
+.forest-window::before, .forest-window::after { position: absolute; top: 50%; left: 50%; width: 135%; height: 1px; background: rgb(241 235 221 / 62%); content: ""; transform: translate(-50%, -50%) rotate(42deg); }
+.forest-window::after { transform: translate(-50%, -50%) rotate(-42deg); }
+.forest-cut { position: absolute; bottom: 15%; left: 13%; width: 34%; height: 1px; background: rgb(198 166 107 / 90%); }
+.forest-cut--two { bottom: 19%; width: 22%; }
+.folio--forest .folio-register { color: var(--ivory); }
+
 .opening { position: relative; display: flex; min-height: max(46rem, 100svh); overflow: hidden; align-items: center; color: var(--ivory); background: var(--ink); isolation: isolate; }
 .opening::before { position: absolute; z-index: -1; inset: 0; content: ""; opacity: .12; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E"); pointer-events: none; }
 .opening-art { position: absolute; z-index: -1; inset: 0 0 0 27%; overflow: hidden; color: var(--brass); opacity: .83; }
@@ -156,6 +185,8 @@ a:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 5px; }
 @keyframes contour-drift { from { transform: translateY(0); } to { transform: translateY(-8px); } }
 
 @media (max-width: 800px) {
+  .folio-stage { perspective: 850px; }
+  .folio { width: min(66vw, 27rem); }
   .site-header { grid-template-columns: 1fr auto; align-items: center; padding-top: 1.4rem; }
   .wordmark { font-size: 1.75rem; }
   .header-note, .primary-nav { display: none; }

@@ -51,3 +51,17 @@ When finished, leave the repository in a clean handoff state. Provide a concise 
 - At handoff, report changed files and summarize the diff so the user can review and commit manually.
 - Do not create parallel agents unless explicitly requested.
 - One AI agent works on the repository at a time.
+
+
+## Research Reference Policy
+
+The complete Viraaasat research archive is stored in `docs/research/` and contains 40 research documents, including the Master Blueprint.
+
+To minimize context and token consumption:
+- Start with the existing root documentation and the Master Blueprint when relevant.
+- Do not read all 40 research documents for every task.
+- Consult only the specific research missions relevant to the current task.
+- Prefer existing project documentation over repeatedly rediscovering settled decisions.
+- Distinguish locked decisions, approved direction, recommendations, and unresolved decisions.
+- Do not independently make editorial decisions or lock creative direction that requires team approval.
+- If research conflicts with current project decisions, flag the conflict rather than silently changing direction.

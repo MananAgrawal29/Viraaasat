@@ -5,140 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#191b18" />
     <meta name="description" content="Viraaasat is an independent publication making room for deeper, more curious stories about India." />
-    <title>Viraaasat — India, in all its complexity</title>
+    <title>Viraaasat — India, a story still unfolding</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.1/dist/gsap.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.1/dist/ScrollTrigger.min.js" defer></script>
-    <script src="./main.js" defer></script>
+    <link rel="stylesheet" href="./styles.css?rev=8" />
+    <script src="./assets/gsap.min.js" defer></script>
+    <script src="./assets/ScrollTrigger.min.js" defer></script>
+    <script src="./main.js?rev=21" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to the page</a>
-
-    <header class="site-header" aria-label="Main navigation">
-      <a class="wordmark" href="#top" aria-label="Viraaasat home">viraaasat<span class="wordmark-period">.</span></a>
+    <a class="skip-link" href="#act-archive">Skip the cinematic opening</a>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Viraaasat home">viraaasat<span>.</span></a>
       <p class="header-note">An independent publication<br />about India, in all its complexity.</p>
-      <nav class="primary-nav" aria-label="Primary">
-        <a href="#introduction">The publication</a>
-        <a href="#featured">The first story</a>
+      <nav class="primary-nav" aria-label="Journey chapters">
+        <a href="#act-archive">The archive</a><a href="#act-map">Map room</a><a href="#act-open-book">Open book</a>
       </nav>
-      <a class="menu-index" href="#featured"><span>Explore</span><span class="index-arrow" aria-hidden="true">↘</span></a>
+      <a class="menu-index" href="#journal"><span>Enter the journal</span><span aria-hidden="true">↘</span></a>
     </header>
 
-    <main id="main">
-      <div class="folio-stage" aria-hidden="true">
-        <div class="folio folio--vellum">
-          <svg class="folio-engraving" viewBox="0 0 520 400" preserveAspectRatio="xMidYMid slice">
-            <g fill="none" stroke="currentColor" stroke-width="1.15">
-              <path d="M-34 282C80 182 128 336 246 249s190-123 301-41" />
-              <path d="M-34 301C80 201 128 355 246 268s190-123 301-41" />
-              <path d="M-34 320C80 220 128 374 246 287s190-123 301-41" />
-              <path d="M-34 339C80 239 128 393 246 306s190-123 301-41" />
-              <path d="M-34 358C80 258 128 412 246 325s190-123 301-41" />
-              <path d="M-34 377C80 277 128 431 246 344s190-123 301-41" />
-            </g>
-          </svg>
-          <span class="folio-orbit"></span>
-          <span class="folio-register"><i></i><i></i><i></i><i></i></span>
+    <main id="top">
+      <div class="journey" id="journey">
+        <div class="museum-stage" aria-hidden="true">
+          <div class="stage-world">
+            <div class="archive-room"></div>
+            <div class="book-stage" data-book-stage>
+              <div class="book-poster" aria-hidden="true"><span>वि</span><small>VIRAAASAT · AN OPEN ARCHIVE</small></div>
+              <canvas class="book-renderer" aria-hidden="true"></canvas>
+            </div>
+            <div class="time-pages">
+              <figure class="time-page time-page--manuscript"><img data-scene-src="./assets/kalpa-sutra-folio-1800.jpg" data-scene-srcset="./assets/kalpa-sutra-folio-1800.jpg 1800w, ./assets/kalpa-sutra-folio.jpg 3400w" data-scene-sizes="(max-width: 800px) 33vw, 25vw" alt="" /></figure>
+              <figure class="time-page time-page--stone"><img data-scene-src="./assets/mathura-railing-pillar-1800.jpg" data-scene-srcset="./assets/mathura-railing-pillar-1800.jpg 1129w, ./assets/mathura-railing-pillar.jpg 2132w" data-scene-sizes="(max-width: 800px) 33vw, 25vw" alt="" /></figure>
+            </div>
+            <div class="gallery-room">
+              <div class="gallery-ceiling"></div><div class="gallery-left-wall"></div><div class="gallery-back-wall"></div><div class="gallery-side-wall"></div><div class="gallery-floor"></div>
+              <figure class="continuity-folio"><img data-scene-src="./assets/gita-govinda-folio-1800.jpg" data-scene-srcset="./assets/gita-govinda-folio-1800.jpg 1800w, ./assets/gita-govinda-folio.jpg 3400w" data-scene-sizes="(max-width: 800px) 45vw, 26vw" alt="" /><figcaption>Gita Govinda · Mewar · c. 1680</figcaption></figure>
+              <figure class="exhibit exhibit--one"><img data-scene-src="./assets/mathura-railing-pillar-1800.jpg" data-scene-srcset="./assets/mathura-railing-pillar-1800.jpg 1129w, ./assets/mathura-railing-pillar.jpg 2132w" data-scene-sizes="(max-width: 800px) 37vw, 19vw" alt="" /><figcaption>Mathura · Kushan period · c. 100 CE</figcaption></figure>
+              <figure class="exhibit exhibit--three"><img data-scene-src="./assets/kalpa-sutra-folio-1800.jpg" data-scene-srcset="./assets/kalpa-sutra-folio-1800.jpg 1800w, ./assets/kalpa-sutra-folio.jpg 3400w" data-scene-sizes="(max-width: 800px) 37vw, 19vw" alt="" /><figcaption>Kalpa-sutra · c. 1475–1500</figcaption></figure>
+              <div class="gallery-doorway"></div>
+            </div>
+            <div class="map-room">
+              <div class="map-table"></div>
+              <figure class="map-plate">
+                <img class="physical-map" data-scene-src="./assets/subcontinent-physical-map.svg" alt="" />
+                <img class="night-map" data-scene-src="./assets/nightlights-india-2023-4k.jpg" alt="" />
+              </figure>
+              <div class="map-register map-register--physical"><span>PHYSICAL GEOGRAPHY · SOUTH ASIA</span><span>NATURAL EARTH 1:10M DATA · NO POLITICAL BOUNDARIES</span></div>
+              <div class="map-register map-register--night"><span>VIIRS NIGHT-LIGHTS COMPOSITE · 2023</span><span>NASA / NOAA · INDIA-CENTERED VIEW</span></div>
+            </div>
+          </div>
+          <div class="stage-frame"></div>
+          <div class="stage-vignette"></div>
+          <div class="stage-header"><span class="stage-act">ACT I</span><span class="stage-location">THE ARCHIVE AWAKENS</span></div>
+          <div class="stage-counter"><span>01</span><i></i><span>06</span></div>
         </div>
 
-        <div class="folio folio--oxide">
-          <div class="folio-face folio-face--front">
-            <span class="oxide-disc"></span>
-            <span class="oxide-rule"></span>
-            <span class="folio-register"><i></i><i></i><i></i><i></i></span>
-          </div>
-          <div class="folio-face folio-face--back">
-            <span class="back-fold"></span>
-            <span class="back-orbit"></span>
-            <span class="folio-register"><i></i><i></i><i></i><i></i></span>
-          </div>
-        </div>
-
-        <div class="folio folio--forest">
-          <span class="forest-window"></span>
-          <span class="forest-cut forest-cut--one"></span>
-          <span class="forest-cut forest-cut--two"></span>
-          <span class="folio-register"><i></i><i></i><i></i><i></i></span>
+        <div class="act-copy">
+          <section class="act act--opening" id="act-archive" data-act="0" aria-labelledby="title-archive">
+            <div class="act-copy-inner act-copy-inner--opening">
+              <p class="act-kicker">A living archive · Volume 01</p>
+              <h1 id="title-archive">India,<br /><em>a story still unfolding.</em></h1>
+              <p class="act-deck">A country cannot be held in one frame. Begin with the traces it leaves behind.</p>
+              <a class="scroll-cue" href="#act-pages"><span>Open the archive</span><span aria-hidden="true">↓</span></a>
+              <figure class="fallback-art fallback-book-art" aria-label="A Viraaasat archive volume, bound in dark leather with a brass mark."><div class="fallback-book-cover" aria-hidden="true"><span>वि</span><small>VIRAAASAT · AN OPEN ARCHIVE</small></div><figcaption>The archive opens through material traces, kept in their own contexts.</figcaption></figure>
+            </div>
+          </section>
+          <section class="act" id="act-pages" data-act="1" aria-labelledby="title-pages">
+            <div class="act-copy-inner">
+              <p class="act-kicker">Act II · Pages of time</p>
+              <h2 id="title-pages">A leaf. A line.<br /><em>A world held in pigment.</em></h2>
+              <p class="act-deck">A Mathura railing pillar, a Jain manuscript folio, and a Gita Govinda painting survive in radically different forms. They are not one timeline; each is a trace with its own material, place and context.</p>
+              <div class="object-notes"><span>c. 100 CE · railing pillar, Mathura</span><span>c. 1475–1500 · Kalpa-sutra manuscript</span><span>c. 1680 · Gita Govinda folio, Mewar</span></div>
+              <figure class="fallback-art fallback-art--row"><img src="./assets/mathura-railing-pillar-1800.jpg" srcset="./assets/mathura-railing-pillar-1800.jpg 1129w, ./assets/mathura-railing-pillar.jpg 2132w" sizes="(max-width: 800px) 100vw, 31rem" alt="Carved railing pillar from Mathura, c. 100 CE." /><img src="./assets/kalpa-sutra-folio-1800.jpg" srcset="./assets/kalpa-sutra-folio-1800.jpg 1800w, ./assets/kalpa-sutra-folio.jpg 3400w" sizes="(max-width: 800px) 100vw, 31rem" alt="Kalpa-sutra manuscript folio, c. 1475–1500." /><img src="./assets/gita-govinda-folio-1800.jpg" srcset="./assets/gita-govinda-folio-1800.jpg 1800w, ./assets/gita-govinda-folio.jpg 3400w" sizes="(max-width: 800px) 100vw, 31rem" alt="Gita Govinda painting, c. 1680, from Mewar." /></figure>
+            </div>
+          </section>
+          <section class="act" id="act-gallery" data-act="2" aria-labelledby="title-gallery">
+            <div class="act-copy-inner">
+              <p class="act-kicker">Act III · The museum comes alive</p>
+              <h2 id="title-gallery">The page becomes<br /><em>a place to stand.</em></h2>
+              <p class="act-deck">The Gita Govinda folio holds the far wall. A Mathura pillar edges into view nearby; a manuscript waits deeper in the next alcove. The page has not become an invented landscape. It has become a room for looking.</p>
+              <p class="act-footnote">Collection images: The Cleveland Museum of Art, Open Access.</p>
+              <figure class="fallback-art fallback-art--row"><img src="./assets/mathura-railing-pillar-1800.jpg" srcset="./assets/mathura-railing-pillar-1800.jpg 1129w, ./assets/mathura-railing-pillar.jpg 2132w" sizes="(max-width: 800px) 100vw, 31rem" alt="Carved stone railing pillar from Mathura, c. 100 CE." /><img src="./assets/gita-govinda-folio-1800.jpg" srcset="./assets/gita-govinda-folio-1800.jpg 1800w, ./assets/gita-govinda-folio.jpg 3400w" sizes="(max-width: 800px) 100vw, 31rem" alt="Painted Gita Govinda folio from Mewar, c. 1680." /></figure>
+            </div>
+          </section>
+          <section class="act" id="act-map" data-act="3" aria-labelledby="title-map">
+            <div class="act-copy-inner">
+              <p class="act-kicker">Act IV · The map room</p>
+              <h2 id="title-map">A map is also<br /><em>a point of view.</em></h2>
+              <p class="act-deck">The frame widens from a single folio to the land and river systems of South Asia. This contemporary physical map carries no political borders; it is a geographic reference, not a map of any historical state.</p>
+              <a class="source-link" href="https://www.naturalearthdata.com/downloads/10m-physical-vectors/" target="_blank" rel="noreferrer">Natural Earth · 1:10m physical vectors ↗</a>
+              <figure class="fallback-art fallback-art--map"><img src="./assets/subcontinent-physical-map.svg" alt="Physical map of the Indian subcontinent and surrounding South Asia, showing land, coastline and major rivers without political boundaries." /><figcaption>Natural Earth physical geography · no political boundaries shown</figcaption></figure>
+            </div>
+          </section>
+          <section class="act" id="act-frame" data-act="4" aria-labelledby="title-frame">
+            <div class="act-copy-inner">
+              <p class="act-kicker">Act V · History is still happening</p>
+              <h2 id="title-frame">The archive<br /><em>is not finished.</em></h2>
+              <p class="act-deck">At night, satellite instruments register light from human activity across this same broad region. It is one partial view of the present—not a measure of everything happening on the ground.</p>
+              <a class="source-link" href="https://svs.gsfc.nasa.gov/5276/" target="_blank" rel="noreferrer">NASA Black Marble · 2023 annual average ↗</a>
+              <figure class="fallback-art fallback-art--night"><img src="./assets/nightlights-india-2023-4k.jpg" alt="NASA Black Marble composite centered on India, showing night-time lights in 2023." /><figcaption>VIIRS annual-average night lights · 2023 · NASA / NOAA</figcaption></figure>
+            </div>
+          </section>
+          <section class="act act--closing" id="act-open-book" data-act="5" aria-labelledby="title-open-book">
+            <div class="act-copy-inner">
+              <p class="act-kicker">Act VI · The open book</p>
+              <h2 id="title-open-book">The story<br /><em>stays open.</em></h2>
+              <p class="act-deck">What you have crossed is not a complete history. It is an invitation to look closer, follow evidence, and make room for more than one view.</p>
+            </div>
+          </section>
         </div>
       </div>
 
-      <section class="opening" id="top" aria-labelledby="opening-title">
-        <div class="opening-art" aria-hidden="true">
-          <div class="art-glow"></div>
-          <svg class="contours" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-            <g class="contour-drift" fill="none" stroke="currentColor" stroke-width="1">
-              <path d="M-80 624C115 506 245 745 435 613s287-197 437-62 320 190 654 20" />
-              <path d="M-80 649C115 531 245 770 435 638s287-197 437-62 320 190 654 20" />
-              <path d="M-80 674C115 556 245 795 435 663s287-197 437-62 320 190 654 20" />
-              <path d="M-80 699C115 581 245 820 435 688s287-197 437-62 320 190 654 20" />
-              <path d="M-80 724C115 606 245 845 435 713s287-197 437-62 320 190 654 20" />
-              <path d="M-80 749C115 631 245 870 435 738s287-197 437-62 320 190 654 20" />
-              <path d="M-80 774C115 656 245 895 435 763s287-197 437-62 320 190 654 20" />
-              <path d="M-80 799C115 681 245 920 435 788s287-197 437-62 320 190 654 20" />
-              <path d="M-80 824C115 706 245 945 435 813s287-197 437-62 320 190 654 20" />
-              <path d="M-80 849C115 731 245 970 435 838s287-197 437-62 320 190 654 20" />
-            </g>
-          </svg>
-          <span class="art-sun"></span>
-          <span class="art-edge"></span>
-        </div>
-        <div class="hero-wash" aria-hidden="true"></div>
-        <div class="opening-copy">
-          <p class="eyebrow"><span class="eyebrow-mark"></span> A journal of the many</p>
-          <h1 id="opening-title"><span class="title-mask"><span class="title-line">India, read</span></span><span class="title-mask title-mask-offset"><span class="title-line"><em>more closely.</em></span></span></h1>
-          <div class="opening-foot">
-            <p>Stories that make room<br />for a more layered view.</p>
-            <a class="scroll-cue" href="#introduction"><span>Enter the journal</span><span aria-hidden="true">↓</span></a>
-          </div>
-        </div>
-        <p class="vertical-note" aria-hidden="true">A living archive · Volume 01</p>
-        <div class="opening-rule" aria-hidden="true"><span></span></div>
-      </section>
-
-      <section class="introduction" id="introduction" aria-labelledby="intro-title">
-        <div class="intro-margin">
-          <span class="section-index">01 / A point of view</span>
-          <span class="intro-glyph" aria-hidden="true">वि</span>
-        </div>
+      <section class="introduction" id="journal" aria-labelledby="intro-title">
+        <div class="intro-margin"><span class="section-index">A publication in the making</span><span class="intro-glyph" aria-hidden="true">वि</span></div>
         <div class="intro-content">
-          <p class="eyebrow ink-eyebrow">A publication in the making</p>
-          <h2 id="intro-title"><span class="title-mask"><span class="title-line">A place for the</span></span><span class="title-mask"><span class="title-line"><em>whole picture.</em></span></span></h2>
+          <p class="eyebrow ink-eyebrow">Viraaasat · India, in all its complexity</p>
+          <h2 id="intro-title">A place for the<br /><em>whole picture.</em></h2>
           <div class="intro-bottom">
-            <p class="intro-deck">Viraaasat is an independent, story-first publication exploring India: its histories and futures, its people and systems, its beauty and difficult truths.</p>
+            <p>Viraaasat is an independent, story-first publication exploring India: its histories and futures, its people and systems, its beauty and difficult truths.</p>
             <p class="intro-aside">Not to settle the question.<br />To see it from closer in.</p>
           </div>
         </div>
-        <div class="intro-stamp" aria-hidden="true"><span>देखें</span><i></i><span>QUESTION<br />&amp; DISCOVER</span></div>
       </section>
 
       <section class="featured" id="featured" aria-labelledby="featured-title">
-        <div class="featured-topline">
-          <span class="section-index">02 / The journal begins</span>
-          <span class="feature-status"><span></span> Editorial desk · In progress</span>
+        <div class="featured-topline"><span class="section-index">The journal begins</span><span class="feature-status">Editorial desk · In progress</span></div>
+        <div class="feature-frame">
+          <div class="frame-ornament frame-ornament-top">V—01</div>
+          <div class="frame-center"><span class="frame-overline">A frame held open</span><span class="frame-mark" aria-hidden="true">✳</span><h2 id="featured-title">The first story<br /><em>is still being found.</em></h2><p>This space is reserved for the story the editors choose.<br />Its subject, title and direction remain open.</p></div>
+          <div class="frame-ornament frame-ornament-bottom"><span>STORY</span><span>TO BE SELECTED</span></div>
         </div>
-        <div class="feature-frame" aria-label="Reserved space for the editorially selected first story">
-          <div class="frame-ornament frame-ornament-top" aria-hidden="true">V—01</div>
-          <div class="frame-center">
-            <span class="frame-overline">A frame held open</span>
-            <span class="frame-mark" aria-hidden="true">✳</span>
-            <h2 id="featured-title"><span class="title-mask"><span class="title-line">The first story</span></span><span class="title-mask"><span class="title-line"><em>is still being found.</em></span></span></h2>
-            <p>This space is reserved for the story the editors choose.<br />Its subject, title and direction remain open.</p>
-          </div>
-          <div class="frame-ornament frame-ornament-bottom" aria-hidden="true"><span>STORY</span><span>TO BE SELECTED</span></div>
-        </div>
-        <div class="featured-caption"><span>Every story begins with a question.</span><span class="caption-index">— &nbsp; VIRAAASAT / 2026</span></div>
+        <div class="featured-caption"><span>Every story begins with a question.</span><span>VIRAAASAT / 2026</span></div>
       </section>
 
-      <footer class="site-footer">
-        <a class="footer-wordmark" href="#top">viraaasat<span>.</span></a>
-        <p>See more. Ask better questions.</p>
-        <a class="back-top" href="#top">Back to the beginning <span aria-hidden="true">↑</span></a>
-        <span class="footer-colophon">An independent publication · India</span>
-      </footer>
+      <footer class="site-footer"><a class="footer-wordmark" href="#top">viraaasat<span>.</span></a><p>See more. Ask better questions.</p><a class="back-top" href="#top">Return to the beginning ↑</a><span class="footer-colophon">An independent publication · India</span></footer>
     </main>
   </body>
 </html>

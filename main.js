@@ -1,160 +1,292 @@
 if (!window.gsap || !window.ScrollTrigger) {
-  // The page stays readable if the optional motion runtime is unavailable.
+  // The editorial fallback remains available without either motion library.
 } else {
   const { gsap, ScrollTrigger } = window;
   gsap.registerPlugin(ScrollTrigger);
 
-  const motionMedia = gsap.matchMedia();
+  const motion = gsap.matchMedia();
+  motion.add(
+    {
+      enabled: "(prefers-reduced-motion: no-preference)",
+      mobile: "(max-width: 800px)",
+    },
+    ({ conditions }) => {
+      if (!conditions.enabled) return;
 
-  motionMedia.add({
-    motion: "(prefers-reduced-motion: no-preference)",
-    mobile: "(max-width: 800px)",
-  }, ({ conditions }) => {
-    if (!conditions.motion) return;
+      const mobile = conditions.mobile;
+      const stage = document.querySelector(".museum-stage");
+      const world = document.querySelector(".stage-world");
+      const bookStage = document.querySelector(".book-stage");
+      const pages = document.querySelector(".time-pages");
+      const gallery = document.querySelector(".gallery-room");
+      const folio = document.querySelector(".continuity-folio");
+      const gallerySurfaces = [
+        ".gallery-ceiling",
+        ".gallery-left-wall",
+        ".gallery-back-wall",
+        ".gallery-side-wall",
+        ".gallery-floor",
+        ".gallery-doorway",
+        ".exhibit--one",
+        ".exhibit--three",
+      ];
+      const mapRoom = document.querySelector(".map-room");
+      const physicalMap = document.querySelector(".physical-map");
+      const nightMap = document.querySelector(".night-map");
+      const mapPlate = document.querySelector(".map-plate");
+      const mapTable = document.querySelector(".map-table");
+      const physicalRegister = document.querySelector(".map-register--physical");
+      const nightRegister = document.querySelector(".map-register--night");
+      const actTag = document.querySelector(".stage-act");
+      const locationTag = document.querySelector(".stage-location");
+      const counter = document.querySelector(".stage-counter span:first-child");
+      const acts = [...document.querySelectorAll(".act")];
+      const copyPanels = acts.map((act) => act.querySelector(".act-copy-inner"));
+      const chapterNames = ["I", "II", "III", "IV", "V", "VI"];
+      const labels = [
+        "THE ARCHIVE AWAKENS",
+        "PAGES OF TIME",
+        "THE MUSEUM COMES ALIVE",
+        "THE MAP ROOM",
+        "HISTORY IS STILL HAPPENING",
+        "THE OPEN BOOK",
+      ];
 
-    document.body.classList.add("motion-ready");
+      const loadImage = (image) => {
+        if (!image || image.dataset.loaded || !image.dataset.sceneSrc) return;
+        image.dataset.loaded = "true";
+        image.decoding = "async";
+        if (image.dataset.sceneSrcset) {
+          image.sizes = image.dataset.sceneSizes || "70vw";
+          image.srcset = image.dataset.sceneSrcset;
+        }
+        image.src = image.dataset.sceneSrc;
+      };
+      const loadScene = (selector) =>
+        document.querySelectorAll(selector).forEach(loadImage);
+      const loadScript = (path) => new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = path;
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = () => reject(new Error(`Could not load ${path}`));
+        document.head.append(script);
+      });
 
-    const hero = document.querySelector(".opening");
-    const stage = document.querySelector(".folio-stage");
-    const vellum = document.querySelector(".folio--vellum");
-    const oxide = document.querySelector(".folio--oxide");
-    const forest = document.querySelector(".folio--forest");
-    const heroCopy = document.querySelector(".opening-copy");
-    const heroWash = document.querySelector(".hero-wash");
-    const sun = document.querySelector(".art-sun");
-    const contours = document.querySelector(".contours");
-    const verticalNote = document.querySelector(".vertical-note");
-    const intro = document.querySelector(".introduction");
-    const glyph = document.querySelector(".intro-glyph");
-    const featured = document.querySelector(".featured");
-    const frame = document.querySelector(".feature-frame");
-    const footer = document.querySelector(".site-footer");
-    const mobile = conditions.mobile;
+      document.body.classList.add("motion-ready");
+      gsap.set(stage, { autoAlpha: 1 });
+      gsap.set([pages, gallery, mapRoom], { autoAlpha: 0 });
+      gsap.set(gallerySurfaces, { autoAlpha: 0 });
+      gsap.set([folio, nightMap], { autoAlpha: 0 });
+      gsap.set(copyPanels[0], { autoAlpha: 1, y: 0 });
 
-    const positions = () => ({
-      vellum: { x: window.innerWidth * (mobile ? 0.16 : 0.38), y: window.innerHeight * (mobile ? -0.2 : -0.14), z: 100, rotation: 8, rotateX: -5, rotateY: -10, scale: 1 },
-      oxide: { x: window.innerWidth * (mobile ? 0.24 : 0.44), y: window.innerHeight * (mobile ? -0.16 : -0.1), z: 0, rotation: 21, rotateX: 10, rotateY: 22, scale: 0.94 },
-      forest: { x: window.innerWidth * (mobile ? 0.16 : 0.38), y: window.innerHeight * (mobile ? -0.15 : -0.04), z: -110, rotation: -15, rotateX: -10, rotateY: -20, scale: 0.87 },
-    });
+      const bookState = { progress: 0 };
+      const bookReady = loadScript("./assets/three.min.js")
+        .then(() => loadScript("./assets/book-renderer.js"))
+        .catch((error) => {
+          // The CSS poster remains as a visual fallback when WebGL is unavailable.
+          console.info("The physical book renderer is unavailable; using its poster fallback.", error);
+        });
 
-    const rest = positions();
-    gsap.set(stage, { perspective: mobile ? 850 : 1300, autoAlpha: 1 });
-    gsap.set([vellum, oxide, forest], { xPercent: -50, yPercent: -50, transformOrigin: "50% 50%", transformStyle: "preserve-3d" });
-    gsap.set(vellum, rest.vellum);
-    gsap.set(oxide, rest.oxide);
-    gsap.set(forest, rest.forest);
-    let entrance = null;
-
-    const coverScale = () => {
-      return Math.max(window.innerWidth / vellum.offsetWidth, window.innerHeight / vellum.offsetHeight) * (mobile ? 1.3 : 1.18);
-    };
-
-    const heroScroll = gsap.timeline({
-      defaults: { ease: "none" },
-      scrollTrigger: {
-        trigger: hero,
-        start: "top top",
-        end: () => `+=${Math.round(window.innerHeight * (mobile ? 0.98 : 1.04))}`,
-        scrub: 0.28,
-        invalidateOnRefresh: true,
-        onUpdate(self) {
-          if (self.progress > 0.015 && entrance?.isActive()) entrance.kill();
+      const story = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: ".journey",
+          start: "top top",
+          end: "bottom top",
+          scrub: mobile ? 0.35 : 0.45,
+          invalidateOnRefresh: true,
+          onUpdate: ({ progress }) => {
+            if (progress > 0.12) loadScene(".time-page img, .continuity-folio img");
+            if (progress > 0.25) loadScene(".exhibit img");
+            if (progress > 0.47) loadImage(physicalMap);
+            if (progress > 0.66) loadImage(nightMap);
+          },
         },
-      },
-    });
+      });
 
-    heroScroll.to(heroCopy, { yPercent: -76, xPercent: mobile ? -8 : -5, rotation: -3.5, scale: 0.82, autoAlpha: 0 }, 0.02);
-    heroScroll.to(verticalNote, { y: -80, autoAlpha: 0 }, 0.03);
-    heroScroll.to(sun, { x: mobile ? -70 : -185, y: mobile ? 125 : 220, scale: mobile ? 1.75 : 2.15, rotation: -65, opacity: 0.24 }, 0.04);
-    heroScroll.to(contours, { x: mobile ? 48 : 120, yPercent: mobile ? 32 : 45, rotation: mobile ? -2 : -1, opacity: 0.23 }, 0.04);
+      bookReady.then(() => {
+        if (window.viraaasatBook) window.viraaasatBook.setProgress(bookState.progress);
+      });
 
-    // A sheet turns through the stack; the other two shear away at different depths.
-    heroScroll.to(oxide, { x: mobile ? -window.innerWidth * 0.22 : -window.innerWidth * 0.28, y: window.innerHeight * 0.22, z: 180, rotation: -16, rotateX: mobile ? 12 : -8, rotateY: 202, scale: mobile ? 0.91 : 1.03 }, 0.08);
-    heroScroll.to(forest, { x: mobile ? -window.innerWidth * 0.46 : -window.innerWidth * 0.42, y: -window.innerHeight * 0.42, z: -260, rotation: -34, rotateX: mobile ? 22 : 34, rotateY: 42, scale: 0.7 }, 0.12);
+      // I — the cover lifts at the spine; the left leaf unfurls as the book
+      // settles into a balanced spread. No camera or scroll is pinned beyond
+      // the existing natural-scroll chapter stage.
+      story.to(bookState, {
+        progress: 1,
+        duration: 0.78,
+        onUpdate: () => window.viraaasatBook?.setProgress(bookState.progress),
+      }, 0);
+      story.to(world, { backgroundColor: "#29251f", duration: 0.38 }, 0.42);
 
-    // The pale folio unfolds until it becomes the full-screen ivory between chapters.
-    heroScroll.to(vellum, { x: 0, y: 0, z: 260, rotation: 0, rotateX: 0, rotateY: 0, scale: coverScale }, 0.37);
-    heroScroll.to(heroWash, { opacity: 1 }, 0.68);
-    heroScroll.to(stage, { autoAlpha: 0 }, 0.965);
+      // II — the printed folios become loose archive plates. The familiar
+      // Mathura and Kalpa-sutra images carry forward from the actual page.
+      story.to(bookStage, {
+        autoAlpha: 0,
+        scale: mobile ? 1.04 : 1.08,
+        transformOrigin: mobile ? "50% 34%" : "68% 48%",
+        duration: 0.25,
+        ease: "power2.in",
+      }, 0.86);
+      story.fromTo(pages,
+        { autoAlpha: 0, scale: 0.94, yPercent: 8 },
+        { autoAlpha: 1, scale: 1, yPercent: 0, duration: 0.5, ease: "power2.out" },
+        0.96,
+      );
+      story.fromTo(".time-page--stone",
+        { xPercent: mobile ? -16 : -23, yPercent: 8, rotateY: -17, z: -180 },
+        { xPercent: 0, yPercent: 0, rotateY: -4, z: 70, duration: 0.54, ease: "power2.out" },
+        1.04,
+      );
+      story.fromTo(".time-page--manuscript",
+        { xPercent: mobile ? 18 : 24, yPercent: -8, rotateY: 18, z: -140 },
+        { xPercent: 0, yPercent: 0, rotateY: 3, z: 90, duration: 0.58, ease: "power2.out" },
+        1.22,
+      );
+      story.to(pages, {
+        autoAlpha: 0,
+        scale: 1.1,
+        rotateY: -11,
+        duration: 0.27,
+        ease: "power2.in",
+      }, 1.83);
 
-    entrance = gsap.timeline({ defaults: { overwrite: "auto" } });
-    entrance.fromTo(stage, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.22, ease: "power1.out" }, 0);
-    entrance.fromTo(
-      vellum,
-      { x: window.innerWidth * 0.48, y: -window.innerHeight * 0.82, z: 300, rotation: -18, rotateX: 58, rotateY: 28, scale: 0.74 },
-      { ...rest.vellum, y: rest.vellum.y - 9, duration: 0.76, ease: "power3.in" },
-      0.04,
-    );
-    entrance.to(vellum, { y: rest.vellum.y + 2, duration: 0.26, ease: "power2.out" }, 0.8);
-    entrance.to(vellum, { y: rest.vellum.y, duration: 0.32, ease: "power1.out" }, 1.06);
-    entrance.fromTo(
-      oxide,
-      { x: -window.innerWidth * 0.72, y: -window.innerHeight * 0.28, z: 240, rotation: -27, rotateX: 35, rotateY: 154, scale: 0.78 },
-      { ...rest.oxide, duration: 0.92, ease: "power3.out" },
-      0.18,
-    );
-    entrance.fromTo(
-      forest,
-      { x: window.innerWidth * 0.75, y: window.innerHeight * 0.96, z: -280, rotation: 31, rotateX: -48, rotateY: -52, scale: 0.7 },
-      { ...rest.forest, duration: 0.9, ease: "power3.out" },
-      0.38,
-    );
+      // III — the Gita Govinda image from the opened spread persists as the
+      // room's dominant exhibit. Architecture opens around that same object.
+      story.fromTo(gallery,
+        { autoAlpha: 0, scale: 1.035 },
+        { autoAlpha: 1, scale: 1, duration: 0.25, ease: "power1.out" },
+        1.98,
+      );
+      story.fromTo(".gallery-back-wall",
+        { autoAlpha: 0, clipPath: "inset(0 44% 0 44%)", z: -460 },
+        { autoAlpha: 1, clipPath: "inset(0)", z: -330, duration: 0.55, ease: "power2.out" },
+        2.02,
+      );
+      story.fromTo(".gallery-ceiling",
+        { autoAlpha: 0, yPercent: -18 },
+        { autoAlpha: 1, yPercent: 0, duration: 0.42, ease: "power2.out" },
+        2.06,
+      );
+      story.fromTo(".gallery-left-wall",
+        { autoAlpha: 0, rotateY: 58, xPercent: -8 },
+        { autoAlpha: 1, rotateY: 45, xPercent: 0, duration: 0.48, ease: "power2.out" },
+        2.08,
+      );
+      story.fromTo(".gallery-side-wall",
+        { autoAlpha: 0, rotateY: -54, xPercent: 8 },
+        { autoAlpha: 1, rotateY: -38, xPercent: 0, duration: 0.48, ease: "power2.out" },
+        2.1,
+      );
+      story.fromTo(".gallery-floor",
+        { autoAlpha: 0, yPercent: 12 },
+        { autoAlpha: 1, yPercent: 0, duration: 0.48, ease: "power2.out" },
+        2.1,
+      );
+      story.fromTo(folio,
+        { autoAlpha: 0, xPercent: mobile ? 25 : 31, yPercent: mobile ? 5 : 13, scale: 0.7, rotateY: 9 },
+        { autoAlpha: 1, xPercent: 0, yPercent: 0, scale: 1, rotateY: 0, duration: 0.7, ease: "power2.inOut" },
+        1.98,
+      );
+      story.fromTo(".exhibit--one",
+        { autoAlpha: 0, xPercent: -22, z: 120, rotateY: 15 },
+        { autoAlpha: 1, xPercent: 0, z: 100, rotateY: 11, duration: 0.43, ease: "power2.out" },
+        2.3,
+      );
+      story.fromTo(".exhibit--three",
+        { autoAlpha: 0, xPercent: 18, z: -300, rotateY: -9 },
+        { autoAlpha: 1, xPercent: 0, z: -220, rotateY: -5, duration: 0.46, ease: "power2.out" },
+        2.52,
+      );
+      story.fromTo(".gallery-doorway",
+        { autoAlpha: 0, scaleX: 0.62, scaleY: 0.92 },
+        { autoAlpha: 1, scaleX: 1, scaleY: 1, duration: 0.45, ease: "power2.out" },
+        2.42,
+      );
+      story.to(gallery, { xPercent: mobile ? -5 : -8, rotateY: mobile ? -2 : -3 }, 2.86);
+      story.to(".gallery-doorway", { scale: mobile ? 1.2 : 1.28, z: 200 }, 2.9);
 
-    ScrollTrigger.create({
-      trigger: intro,
-      start: "top 86%",
-      once: true,
-      onEnter: () => intro.classList.add("is-visible"),
-    });
+      // IV — the doorway is the destination: its dark aperture becomes a
+      // broad, unbordered physical map on the same reading surface.
+      story.fromTo(mapRoom,
+        { autoAlpha: 0, scale: 0.94, clipPath: "inset(4% 34% 4% 34%)" },
+        { autoAlpha: 1, scale: 1, clipPath: "inset(0)", duration: 0.5, ease: "power2.inOut" },
+        3.1,
+      );
+      story.to(gallery, { autoAlpha: 0, scale: 0.98, duration: 0.28, ease: "power1.in" }, 3.27);
+      story.fromTo(mapPlate,
+        { autoAlpha: 0, clipPath: "inset(45% 0)", rotateX: 22, rotateZ: -3 },
+        { autoAlpha: 1, clipPath: "inset(0)", rotateX: 7, rotateZ: -1.5, duration: 0.55, ease: "power2.out" },
+        3.3,
+      );
+      story.to(mapPlate, { rotateX: 3, scale: 1.015, duration: 0.52 }, 3.92);
 
-    gsap.fromTo(
-      glyph,
-      { x: mobile ? -72 : -150, y: 56, rotation: -22, scale: 0.66, autoAlpha: 0 },
-      {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        scale: 1,
-        autoAlpha: 1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: intro, start: "top 88%", end: "top 35%", scrub: 0.5, invalidateOnRefresh: true },
-      },
-    );
+      // V — a single clean wipe converts the land-and-river plate into NASA's
+      // India-centered 2023 night-lights composite. The map is the continuity.
+      story.fromTo(nightMap,
+        { autoAlpha: 1, clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: 0.68, ease: "none" },
+        4.18,
+      );
+      story.to(physicalMap, { clipPath: "inset(0 0 0 100%)", duration: 0.68, ease: "none" }, 4.18);
+      story.to(mapTable, { filter: "brightness(.58)", duration: 0.68 }, 4.18);
+      story.to(physicalRegister, { autoAlpha: 0, duration: 0.18 }, 4.34);
+      story.to(nightRegister, { autoAlpha: 1, duration: 0.18 }, 4.66);
+      story.to(world, { backgroundColor: "#101311", duration: 0.62 }, 4.18);
 
-    ScrollTrigger.create({
-      trigger: featured,
-      start: "top 82%",
-      once: true,
-      onEnter: () => featured.classList.add("is-visible"),
-    });
+      // VI — the night view holds, then clears into the publication's ivory
+      // surface. The framing device does not return after the archive opens.
+      story.to(mapRoom, { autoAlpha: 0, scale: 0.99, duration: 0.34, ease: "power1.in" }, 5.22);
+      story.to(world, { backgroundColor: "#F1EBDD", duration: 0.45 }, 5.22);
+      story.to([".stage-header", ".stage-counter"], { autoAlpha: 0, duration: 0.18 }, 5.22);
+      story.to(stage, { autoAlpha: 0, duration: 0.25, ease: "power1.in" }, 5.6);
 
-    gsap.fromTo(
-      frame,
-      { y: mobile ? 48 : 86, rotationX: mobile ? -9 : -17, rotation: mobile ? 1.5 : 3.5, scale: mobile ? 0.96 : 0.92, transformPerspective: 1200 },
-      {
-        y: 0,
-        rotationX: 0,
-        rotation: 0,
-        scale: 1,
-        ease: "power2.out",
-        scrollTrigger: { trigger: featured, start: "top 78%", end: "top 24%", scrub: 0.55, invalidateOnRefresh: true },
-      },
-    );
+      acts.forEach((act, index) => {
+        const panel = copyPanels[index];
+        const activate = () => {
+          actTag.textContent = `ACT ${chapterNames[index]}`;
+          locationTag.textContent = labels[index];
+          counter.textContent = String(index + 1).padStart(2, "0");
+        };
 
-    ScrollTrigger.create({
-      trigger: footer,
-      start: "top 92%",
-      once: true,
-      onEnter: () => footer.classList.add("is-visible"),
-    });
+        if (index === 0) {
+          activate();
+          ScrollTrigger.create({
+            trigger: act,
+            start: "top top",
+            end: "bottom 8%",
+            onEnter: activate,
+            onEnterBack: activate,
+          });
+          return;
+        }
 
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+        gsap.fromTo(panel,
+          { autoAlpha: 0, y: mobile ? 12 : 7 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.48,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: act,
+              start: mobile ? "top -8%" : "top -10%",
+              end: "bottom 8%",
+              toggleActions: "play reverse play reverse",
+              onEnter: activate,
+              onEnterBack: activate,
+            },
+          },
+        );
+      });
 
-    return () => {
-      document.body.classList.remove("motion-ready");
-      intro.classList.remove("is-visible");
-      featured.classList.remove("is-visible");
-      footer.classList.remove("is-visible");
-    };
-  });
+      document.fonts?.ready.then(() => ScrollTrigger.refresh());
+      return () => {
+        story.scrollTrigger?.kill();
+        story.kill();
+        document.body.classList.remove("motion-ready");
+        window.viraaasatBook = undefined;
+      };
+    },
+  );
 }

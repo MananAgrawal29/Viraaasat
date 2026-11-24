@@ -1,292 +1,325 @@
-if (!window.gsap || !window.ScrollTrigger) {
-  // The editorial fallback remains available without either motion library.
-} else {
+/**
+ * Viraaasat — Cinematic Scroll Journey Engine
+ * Refinement Pass: Zero-Jitter Scroll Synchronization, Bespoke Transitions, and Layout Integrity
+ */
+
+(() => {
+  // Respect user preference and check library availability
+  if (!window.gsap || !window.ScrollTrigger) {
+    return;
+  }
+
   const { gsap, ScrollTrigger } = window;
   gsap.registerPlugin(ScrollTrigger);
 
   const motion = gsap.matchMedia();
+
   motion.add(
     {
       enabled: "(prefers-reduced-motion: no-preference)",
-      mobile: "(max-width: 800px)",
+      isMobile: "(max-width: 800px)",
+      isTablet: "(max-width: 1024px)",
     },
     ({ conditions }) => {
-      if (!conditions.enabled) return;
+      if (!conditions.enabled) {
+        return;
+      }
 
-      const mobile = conditions.mobile;
+      const isMobile = conditions.isMobile;
       const stage = document.querySelector(".museum-stage");
-      const world = document.querySelector(".stage-world");
-      const bookStage = document.querySelector(".book-stage");
-      const pages = document.querySelector(".time-pages");
-      const gallery = document.querySelector(".gallery-room");
-      const folio = document.querySelector(".continuity-folio");
-      const gallerySurfaces = [
-        ".gallery-ceiling",
-        ".gallery-left-wall",
-        ".gallery-back-wall",
-        ".gallery-side-wall",
-        ".gallery-floor",
-        ".gallery-doorway",
-        ".exhibit--one",
-        ".exhibit--three",
-      ];
-      const mapRoom = document.querySelector(".map-room");
-      const physicalMap = document.querySelector(".physical-map");
-      const nightMap = document.querySelector(".night-map");
-      const mapPlate = document.querySelector(".map-plate");
-      const mapTable = document.querySelector(".map-table");
-      const physicalRegister = document.querySelector(".map-register--physical");
-      const nightRegister = document.querySelector(".map-register--night");
+      const sceneLayers = [...document.querySelectorAll(".scene-layer")];
       const actTag = document.querySelector(".stage-act");
       const locationTag = document.querySelector(".stage-location");
-      const counter = document.querySelector(".stage-counter span:first-child");
+      const counterCurrent = document.querySelector(".counter-current");
+      const timelineProgress = document.querySelector(".timeline-progress");
+      const markers = [...document.querySelectorAll(".timeline-markers .marker")];
+      const indicator = document.querySelector(".film-scroll-indicator");
       const acts = [...document.querySelectorAll(".act")];
-      const copyPanels = acts.map((act) => act.querySelector(".act-copy-inner"));
-      const chapterNames = ["I", "II", "III", "IV", "V", "VI"];
-      const labels = [
-        "THE ARCHIVE AWAKENS",
-        "PAGES OF TIME",
-        "THE MUSEUM COMES ALIVE",
-        "THE MAP ROOM",
-        "HISTORY IS STILL HAPPENING",
-        "THE OPEN BOOK",
+      const cards = acts.map((act) => act.querySelector(".act-card"));
+
+      if (!stage || sceneLayers.length < 8) return;
+
+      // 8 Scenes metadata with narrative continuity
+      const SCENES = [
+        { act: "ACT I", location: "THE THRESHOLD", title: "Stepwell & Jali Latticework" },
+        { act: "ACT II", location: "THE LIVING ARCHIVE", title: "Museum Corridors" },
+        { act: "ACT III", location: "THE ROCK-CUT SANCTUARIES", title: "Ajanta & Ellora" },
+        { act: "ACT IV", location: "CARTOGRAPHY OF THE SUBCONTINENT", title: "1788 Rennell Map" },
+        { act: "ACT V", location: "THE STONE REALM", title: "Hampi & Khajuraho" },
+        { act: "ACT VI", location: "THE MONUMENT", title: "The Taj Mahal" },
+        { act: "ACT VII", location: "THE SACRED CURRENT", title: "Ghats of Varanasi" },
+        { act: "ACT VIII", location: "THE HORIZON", title: "The Himalayan Frontier" },
       ];
 
-      const loadImage = (image) => {
-        if (!image || image.dataset.loaded || !image.dataset.sceneSrc) return;
-        image.dataset.loaded = "true";
-        image.decoding = "async";
-        if (image.dataset.sceneSrcset) {
-          image.sizes = image.dataset.sceneSizes || "70vw";
-          image.srcset = image.dataset.sceneSrcset;
-        }
-        image.src = image.dataset.sceneSrc;
-      };
-      const loadScene = (selector) =>
-        document.querySelectorAll(selector).forEach(loadImage);
-      const loadScript = (path) => new Promise((resolve, reject) => {
-        const script = document.createElement("script");
-        script.src = path;
-        script.async = true;
-        script.onload = resolve;
-        script.onerror = () => reject(new Error(`Could not load ${path}`));
-        document.head.append(script);
-      });
-
+      // Mark body as motion-ready
       document.body.classList.add("motion-ready");
       gsap.set(stage, { autoAlpha: 1 });
-      gsap.set([pages, gallery, mapRoom], { autoAlpha: 0 });
-      gsap.set(gallerySurfaces, { autoAlpha: 0 });
-      gsap.set([folio, nightMap], { autoAlpha: 0 });
-      gsap.set(copyPanels[0], { autoAlpha: 1, y: 0 });
 
-      const bookState = { progress: 0 };
-      const bookReady = loadScript("./assets/three.min.js")
-        .then(() => loadScript("./assets/book-renderer.js"))
-        .catch((error) => {
-          // The CSS poster remains as a visual fallback when WebGL is unavailable.
-          console.info("The physical book renderer is unavailable; using its poster fallback.", error);
+      // Initialize scene visual layers: Scene 0 visible, others hidden
+      sceneLayers.forEach((layer, idx) => {
+        if (idx === 0) {
+          gsap.set(layer, { autoAlpha: 1 });
+        } else {
+          gsap.set(layer, { autoAlpha: 0 });
+        }
+      });
+
+      // Initialize cards: Card 0 visible, others hidden
+      cards.forEach((card, idx) => {
+        if (!card) return;
+        if (idx === 0) {
+          gsap.set(card, { autoAlpha: 1, y: 0 });
+        } else {
+          gsap.set(card, { autoAlpha: 0, y: isMobile ? 12 : 18 });
+        }
+      });
+
+      // Update active HUD elements
+      let currentActiveIndex = -1;
+      const activateScene = (index) => {
+        if (index === currentActiveIndex) return;
+        if (index < 0 || index >= SCENES.length) return;
+        currentActiveIndex = index;
+        const scene = SCENES[index];
+
+        if (actTag) actTag.textContent = scene.act;
+        if (locationTag) locationTag.textContent = scene.location;
+        if (counterCurrent) counterCurrent.textContent = String(index + 1).padStart(2, "0");
+
+        markers.forEach((m, idx) => {
+          if (idx === index) {
+            m.classList.add("active");
+          } else {
+            m.classList.remove("active");
+          }
         });
+      };
 
+      // Set initial HUD
+      activateScene(0);
+
+      // Marker click smooth navigation
+      markers.forEach((marker, idx) => {
+        marker.addEventListener("click", () => {
+          if (acts[idx]) {
+            acts[idx].scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+
+      // -----------------------------------------------------------------
+      // Master Unified Scroll Timeline (8.0 duration units = 1.0 per act)
+      // -----------------------------------------------------------------
       const story = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: ".journey",
           start: "top top",
           end: "bottom top",
-          scrub: mobile ? 0.35 : 0.45,
+          scrub: isMobile ? 0.3 : 0.45,
           invalidateOnRefresh: true,
           onUpdate: ({ progress }) => {
-            if (progress > 0.12) loadScene(".time-page img, .continuity-folio img");
-            if (progress > 0.25) loadScene(".exhibit img");
-            if (progress > 0.47) loadImage(physicalMap);
-            if (progress > 0.66) loadImage(nightMap);
+            // Update HUD progress bar
+            if (timelineProgress) {
+              timelineProgress.style.width = `${progress * 100}%`;
+            }
+            // Hide mouse indicator after user starts scrolling
+            if (indicator) {
+              indicator.style.opacity = progress > 0.02 ? "0" : "1";
+            }
+            // Update active scene indicator based on progress
+            const actIdx = Math.min(7, Math.max(0, Math.floor(progress * 8.0 - 0.001)));
+            activateScene(actIdx);
           },
         },
       });
 
-      bookReady.then(() => {
-        if (window.viraaasatBook) window.viraaasatBook.setProgress(bookState.progress);
-      });
+      // =================================================================
+      // BESPOKE SCENE CHOREOGRAPHY & CINEMATIC TRANSITIONS
+      // =================================================================
 
-      // I — the cover lifts at the spine; the left leaf unfurls as the book
-      // settles into a balanced spread. No camera or scroll is pinned beyond
-      // the existing natural-scroll chapter stage.
-      story.to(bookState, {
-        progress: 1,
-        duration: 0.78,
-        onUpdate: () => window.viraaasatBook?.setProgress(bookState.progress),
-      }, 0);
-      story.to(world, { backgroundColor: "#29251f", duration: 0.38 }, 0.42);
+      // Scene 0: The Threshold (Architecture & Jali Lattice)
+      const media0 = sceneLayers[0].querySelector(".scene-media");
+      story.to(media0, { scale: 1.06, yPercent: -2, duration: 0.9 }, 0);
+      if (cards[0]) {
+        story.to(cards[0], { autoAlpha: 0, y: -16, duration: 0.28, ease: "power1.in" }, 0.72);
+      }
 
-      // II — the printed folios become loose archive plates. The familiar
-      // Mathura and Kalpa-sutra images carry forward from the actual page.
-      story.to(bookStage, {
-        autoAlpha: 0,
-        scale: mobile ? 1.04 : 1.08,
-        transformOrigin: mobile ? "50% 34%" : "68% 48%",
-        duration: 0.25,
-        ease: "power2.in",
-      }, 0.86);
-      story.fromTo(pages,
-        { autoAlpha: 0, scale: 0.94, yPercent: 8 },
-        { autoAlpha: 1, scale: 1, yPercent: 0, duration: 0.5, ease: "power2.out" },
-        0.96,
+      // Transition 0 -> 1: Architectural Portal Zoom (Center circular mask reveal)
+      const layer1 = sceneLayers[1];
+      const media1 = layer1.querySelector(".scene-media");
+      story.fromTo(
+        layer1,
+        { autoAlpha: 0, clipPath: "circle(0% at 50% 50%)", scale: 1.08 },
+        { autoAlpha: 1, clipPath: "circle(125% at 50% 50%)", scale: 1, duration: 0.45, ease: "power2.inOut" },
+        0.75
       );
-      story.fromTo(".time-page--stone",
-        { xPercent: mobile ? -16 : -23, yPercent: 8, rotateY: -17, z: -180 },
-        { xPercent: 0, yPercent: 0, rotateY: -4, z: 70, duration: 0.54, ease: "power2.out" },
-        1.04,
-      );
-      story.fromTo(".time-page--manuscript",
-        { xPercent: mobile ? 18 : 24, yPercent: -8, rotateY: 18, z: -140 },
-        { xPercent: 0, yPercent: 0, rotateY: 3, z: 90, duration: 0.58, ease: "power2.out" },
-        1.22,
-      );
-      story.to(pages, {
-        autoAlpha: 0,
-        scale: 1.1,
-        rotateY: -11,
-        duration: 0.27,
-        ease: "power2.in",
-      }, 1.83);
+      story.to(media0, { opacity: 0.15, scale: 1.15, duration: 0.4 }, 0.8);
+      story.set(sceneLayers[0], { autoAlpha: 0 }, 1.2);
+      if (cards[1]) {
+        story.fromTo(cards[1], { autoAlpha: 0, y: isMobile ? 12 : 18 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" }, 0.95);
+        story.to(cards[1], { autoAlpha: 0, y: -16, duration: 0.28, ease: "power1.in" }, 1.72);
+      }
 
-      // III — the Gita Govinda image from the opened spread persists as the
-      // room's dominant exhibit. Architecture opens around that same object.
-      story.fromTo(gallery,
-        { autoAlpha: 0, scale: 1.035 },
-        { autoAlpha: 1, scale: 1, duration: 0.25, ease: "power1.out" },
-        1.98,
-      );
-      story.fromTo(".gallery-back-wall",
-        { autoAlpha: 0, clipPath: "inset(0 44% 0 44%)", z: -460 },
-        { autoAlpha: 1, clipPath: "inset(0)", z: -330, duration: 0.55, ease: "power2.out" },
-        2.02,
-      );
-      story.fromTo(".gallery-ceiling",
-        { autoAlpha: 0, yPercent: -18 },
-        { autoAlpha: 1, yPercent: 0, duration: 0.42, ease: "power2.out" },
-        2.06,
-      );
-      story.fromTo(".gallery-left-wall",
-        { autoAlpha: 0, rotateY: 58, xPercent: -8 },
-        { autoAlpha: 1, rotateY: 45, xPercent: 0, duration: 0.48, ease: "power2.out" },
-        2.08,
-      );
-      story.fromTo(".gallery-side-wall",
-        { autoAlpha: 0, rotateY: -54, xPercent: 8 },
-        { autoAlpha: 1, rotateY: -38, xPercent: 0, duration: 0.48, ease: "power2.out" },
-        2.1,
-      );
-      story.fromTo(".gallery-floor",
-        { autoAlpha: 0, yPercent: 12 },
-        { autoAlpha: 1, yPercent: 0, duration: 0.48, ease: "power2.out" },
-        2.1,
-      );
-      story.fromTo(folio,
-        { autoAlpha: 0, xPercent: mobile ? 25 : 31, yPercent: mobile ? 5 : 13, scale: 0.7, rotateY: 9 },
-        { autoAlpha: 1, xPercent: 0, yPercent: 0, scale: 1, rotateY: 0, duration: 0.7, ease: "power2.inOut" },
-        1.98,
-      );
-      story.fromTo(".exhibit--one",
-        { autoAlpha: 0, xPercent: -22, z: 120, rotateY: 15 },
-        { autoAlpha: 1, xPercent: 0, z: 100, rotateY: 11, duration: 0.43, ease: "power2.out" },
-        2.3,
-      );
-      story.fromTo(".exhibit--three",
-        { autoAlpha: 0, xPercent: 18, z: -300, rotateY: -9 },
-        { autoAlpha: 1, xPercent: 0, z: -220, rotateY: -5, duration: 0.46, ease: "power2.out" },
-        2.52,
-      );
-      story.fromTo(".gallery-doorway",
-        { autoAlpha: 0, scaleX: 0.62, scaleY: 0.92 },
-        { autoAlpha: 1, scaleX: 1, scaleY: 1, duration: 0.45, ease: "power2.out" },
-        2.42,
-      );
-      story.to(gallery, { xPercent: mobile ? -5 : -8, rotateY: mobile ? -2 : -3 }, 2.86);
-      story.to(".gallery-doorway", { scale: mobile ? 1.2 : 1.28, z: 200 }, 2.9);
+      // Scene 1: The Living Archive (Museum Corridors)
+      story.to(media1, { xPercent: -3, scale: 1.05, duration: 0.85 }, 1.05);
 
-      // IV — the doorway is the destination: its dark aperture becomes a
-      // broad, unbordered physical map on the same reading surface.
-      story.fromTo(mapRoom,
-        { autoAlpha: 0, scale: 0.94, clipPath: "inset(4% 34% 4% 34%)" },
-        { autoAlpha: 1, scale: 1, clipPath: "inset(0)", duration: 0.5, ease: "power2.inOut" },
-        3.1,
+      // Transition 1 -> 2: Directional Basalt Shadow Wipe (Left-to-right wipe)
+      const layer2 = sceneLayers[2];
+      const media2 = layer2.querySelector(".scene-media");
+      story.fromTo(
+        layer2,
+        { autoAlpha: 0, clipPath: "inset(0 0 0 100%)", xPercent: 5 },
+        { autoAlpha: 1, clipPath: "inset(0 0 0 0%)", xPercent: 0, duration: 0.45, ease: "power2.out" },
+        1.75
       );
-      story.to(gallery, { autoAlpha: 0, scale: 0.98, duration: 0.28, ease: "power1.in" }, 3.27);
-      story.fromTo(mapPlate,
-        { autoAlpha: 0, clipPath: "inset(45% 0)", rotateX: 22, rotateZ: -3 },
-        { autoAlpha: 1, clipPath: "inset(0)", rotateX: 7, rotateZ: -1.5, duration: 0.55, ease: "power2.out" },
-        3.3,
+      story.to(media1, { xPercent: -6, opacity: 0.2, duration: 0.4 }, 1.78);
+      story.set(layer1, { autoAlpha: 0 }, 2.2);
+      if (cards[2]) {
+        story.fromTo(cards[2], { autoAlpha: 0, y: isMobile ? 12 : 18 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" }, 1.95);
+        story.to(cards[2], { autoAlpha: 0, y: -16, duration: 0.28, ease: "power1.in" }, 2.72);
+      }
+
+      // Scene 2: The Rock-Cut Sanctuaries (Ajanta & Ellora)
+      story.to(media2, { scale: 1.05, xPercent: 2, duration: 0.85 }, 2.05);
+
+      // Transition 2 -> 3: Parchment Luminance Dissolve (Stone to historic map)
+      const layer3 = sceneLayers[3];
+      const media3 = layer3.querySelector(".scene-media");
+      story.fromTo(
+        layer3,
+        { autoAlpha: 0, scale: 1.08, filter: "brightness(0.7) contrast(1.15)" },
+        { autoAlpha: 1, scale: 1, filter: "brightness(0.95) contrast(1.05)", duration: 0.45, ease: "power1.inOut" },
+        2.75
       );
-      story.to(mapPlate, { rotateX: 3, scale: 1.015, duration: 0.52 }, 3.92);
+      story.to(media2, { opacity: 0, scale: 1.1, duration: 0.4 }, 2.78);
+      story.set(layer2, { autoAlpha: 0 }, 3.2);
+      if (cards[3]) {
+        story.fromTo(cards[3], { autoAlpha: 0, y: isMobile ? 12 : 18 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" }, 2.95);
+        story.to(cards[3], { autoAlpha: 0, y: -16, duration: 0.28, ease: "power1.in" }, 3.72);
+      }
 
-      // V — a single clean wipe converts the land-and-river plate into NASA's
-      // India-centered 2023 night-lights composite. The map is the continuity.
-      story.fromTo(nightMap,
-        { autoAlpha: 1, clipPath: "inset(0 100% 0 0)" },
-        { clipPath: "inset(0 0% 0 0)", duration: 0.68, ease: "none" },
-        4.18,
+      // Scene 3: Cartography of the Subcontinent (1788 Rennell Map)
+      story.to(media3, { scale: 1.04, yPercent: -3, duration: 0.85 }, 3.05);
+
+      // Transition 3 -> 4: Topographic Elevation Reveal (Bottom-to-top reveal into Hampi boulders)
+      const layer4 = sceneLayers[4];
+      const media4 = layer4.querySelector(".scene-media");
+      story.fromTo(
+        layer4,
+        { autoAlpha: 0, clipPath: "inset(100% 0 0 0)", yPercent: 4 },
+        { autoAlpha: 1, clipPath: "inset(0 0 0 0)", yPercent: 0, duration: 0.45, ease: "power2.out" },
+        3.75
       );
-      story.to(physicalMap, { clipPath: "inset(0 0 0 100%)", duration: 0.68, ease: "none" }, 4.18);
-      story.to(mapTable, { filter: "brightness(.58)", duration: 0.68 }, 4.18);
-      story.to(physicalRegister, { autoAlpha: 0, duration: 0.18 }, 4.34);
-      story.to(nightRegister, { autoAlpha: 1, duration: 0.18 }, 4.66);
-      story.to(world, { backgroundColor: "#101311", duration: 0.62 }, 4.18);
+      story.to(media3, { opacity: 0.15, duration: 0.38 }, 3.8);
+      story.set(layer3, { autoAlpha: 0 }, 4.2);
+      if (cards[4]) {
+        story.fromTo(cards[4], { autoAlpha: 0, y: isMobile ? 12 : 18 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" }, 3.95);
+        story.to(cards[4], { autoAlpha: 0, y: -16, duration: 0.28, ease: "power1.in" }, 4.72);
+      }
 
-      // VI — the night view holds, then clears into the publication's ivory
-      // surface. The framing device does not return after the archive opens.
-      story.to(mapRoom, { autoAlpha: 0, scale: 0.99, duration: 0.34, ease: "power1.in" }, 5.22);
-      story.to(world, { backgroundColor: "#F1EBDD", duration: 0.45 }, 5.22);
-      story.to([".stage-header", ".stage-counter"], { autoAlpha: 0, duration: 0.18 }, 5.22);
-      story.to(stage, { autoAlpha: 0, duration: 0.25, ease: "power1.in" }, 5.6);
+      // Scene 4: The Stone Realm (Hampi Ruins & Granite Boulders)
+      story.to(media4, { xPercent: -2.5, scale: 1.05, duration: 0.85 }, 4.05);
 
-      acts.forEach((act, index) => {
-        const panel = copyPanels[index];
-        const activate = () => {
-          actTag.textContent = `ACT ${chapterNames[index]}`;
-          locationTag.textContent = labels[index];
-          counter.textContent = String(index + 1).padStart(2, "0");
-        };
+      // Transition 4 -> 5: River Mist Soft Cross-Dissolve (Hampi to Taj Mahal reflection)
+      const layer5 = sceneLayers[5];
+      const media5 = layer5.querySelector(".scene-media");
+      story.fromTo(
+        layer5,
+        { autoAlpha: 0, scale: 1.06 },
+        { autoAlpha: 1, scale: 1, duration: 0.45, ease: "power1.inOut" },
+        4.75
+      );
+      story.to(media4, { opacity: 0, duration: 0.42 }, 4.78);
+      story.set(layer4, { autoAlpha: 0 }, 5.2);
+      if (cards[5]) {
+        story.fromTo(cards[5], { autoAlpha: 0, y: isMobile ? 12 : 18 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" }, 4.95);
+        story.to(cards[5], { autoAlpha: 0, y: -16, duration: 0.28, ease: "power1.in" }, 5.72);
+      }
 
-        if (index === 0) {
-          activate();
-          ScrollTrigger.create({
-            trigger: act,
-            start: "top top",
-            end: "bottom 8%",
-            onEnter: activate,
-            onEnterBack: activate,
-          });
-          return;
-        }
+      // Scene 5: The Monument (Taj Mahal)
+      story.to(media5, { scale: 1.05, yPercent: -1.5, duration: 0.85 }, 5.05);
 
-        gsap.fromTo(panel,
-          { autoAlpha: 0, y: mobile ? 12 : 7 },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.48,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: act,
-              start: mobile ? "top -8%" : "top -10%",
-              end: "bottom 8%",
-              toggleActions: "play reverse play reverse",
-              onEnter: activate,
-              onEnterBack: activate,
-            },
-          },
-        );
-      });
+      // Transition 5 -> 6: Water-Flow Cross-Dissolve (Yamuna water into Varanasi Ganga ghats)
+      const layer6 = sceneLayers[6];
+      const media6 = layer6.querySelector(".scene-media");
+      story.fromTo(
+        layer6,
+        { autoAlpha: 0, yPercent: 3, scale: 1.04 },
+        { autoAlpha: 1, yPercent: 0, scale: 1, duration: 0.45, ease: "power2.out" },
+        5.75
+      );
+      story.to(media5, { opacity: 0, duration: 0.4 }, 5.78);
+      story.set(layer5, { autoAlpha: 0 }, 6.2);
+      if (cards[6]) {
+        story.fromTo(cards[6], { autoAlpha: 0, y: isMobile ? 12 : 18 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" }, 5.95);
+        story.to(cards[6], { autoAlpha: 0, y: -16, duration: 0.28, ease: "power1.in" }, 6.72);
+      }
 
-      document.fonts?.ready.then(() => ScrollTrigger.refresh());
+      // Scene 6: The Sacred Current (Varanasi Dawn Ghats)
+      story.to(media6, { xPercent: 2.5, scale: 1.04, duration: 0.85 }, 6.05);
+
+      // Transition 6 -> 7: Altitude Crane Lift (Rising from mist into Himalayan summits)
+      const layer7 = sceneLayers[7];
+      const media7 = layer7.querySelector(".scene-media");
+      story.fromTo(
+        layer7,
+        { autoAlpha: 0, yPercent: -5, scale: 1.07 },
+        { autoAlpha: 1, yPercent: 0, scale: 1, duration: 0.48, ease: "power2.out" },
+        6.75
+      );
+      story.to(media6, { yPercent: 5, opacity: 0, duration: 0.42 }, 6.78);
+      story.set(layer6, { autoAlpha: 0 }, 7.2);
+      if (cards[7]) {
+        story.fromTo(cards[7], { autoAlpha: 0, y: isMobile ? 12 : 18 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" }, 6.95);
+      }
+
+      // Scene 7: The Horizon (Himalayan Frontier, Ladakh & Zanskar)
+      story.to(media7, { scale: 1.05, yPercent: -2, duration: 0.75 }, 7.05);
+
+      // Transition 7 -> Journal: Warm atmospheric fade into Archive Ivory
+      story.to(
+        ".stage-cinematic-veil",
+        {
+          backgroundColor: "#F1EBDD",
+          opacity: 1,
+          duration: 0.42,
+          ease: "power1.in",
+        },
+        7.55
+      );
+
+      story.to(
+        [".stage-header", ".stage-timeline", ".stage-counter", ".stage-frame"],
+        {
+          autoAlpha: 0,
+          duration: 0.25,
+          ease: "power1.out",
+        },
+        7.6
+      );
+
+      story.to(
+        stage,
+        {
+          autoAlpha: 0,
+          duration: 0.35,
+          ease: "power2.in",
+        },
+        7.8
+      );
+
+      // Refresh ScrollTrigger once fonts load to ensure exact pixel triggers
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => ScrollTrigger.refresh());
+      }
+
+      // Cleanup on resize/mode change
       return () => {
         story.scrollTrigger?.kill();
         story.kill();
         document.body.classList.remove("motion-ready");
-        window.viraaasatBook = undefined;
       };
-    },
+    }
   );
-}
+})();

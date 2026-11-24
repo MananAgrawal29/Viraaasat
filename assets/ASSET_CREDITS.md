@@ -1,6 +1,28 @@
 # Homepage media ledger
 
-Accessed 2026-11-23. Museum JPEG originals are preserved alongside local display derivatives (resized with high-quality bicubic interpolation and JPEG quality 82). Responsive `srcset` pairs those derivatives with retained high-resolution source originals. Existing Unsplash images retain their downloaded source JPEGs and display variants. Crops and perspective transforms are composition only; they do not add or remove documentary details.
+Accessed 2026-11-24. Museum and documentary assets are preserved with full licensing and provenance. The Curated Asset Pack is extracted to `assets/curated-pack/` and the 4K Scroll Film is preserved in `assets/video/` and root.
+
+## 4K Cinematic Scroll Film
+
+- **File:** `Viraaasat_Scroll_Film_4K.mp4` (Root and `assets/video/Viraaasat_Scroll_Film_4K.mp4`), 81,939,963 bytes.
+- **Format:** 3840 × 2160 pixels, 24.0 FPS, H.264 / AAC, 31.875 seconds (765 frames total).
+- **Fast-Start:** `moov` header atom at offset 32 (web-optimized progressive streaming).
+- **Keyframe alignment:** 8 sync samples spaced at 4.0s (96 frame) intervals, precisely aligned with the 8 narrative scenes.
+- **Use:** Core homepage scroll-scrubbed narrative journey, driven via GSAP ScrollTrigger and non-blocking HTML5 media seeking.
+
+## Curated Asset Pack
+
+- **Archive:** `India_Scene_at_the_well.zip` (and alias `Viraaasat_Curated_Asset_Pack.zip`), 25 high-resolution authentic archive stills.
+- **Directory:** `assets/curated-pack/`.
+- **Use:** Scene posters, fallback art for reduced motion and no-JS modes, and editorial metadata context across all 8 acts:
+  1. *Stepwell Architecture*: `India_Scene_at_the_well.jpg`, `Eastern_entrance.jpg`.
+  2. *Museum Architecture*: `Albert_Hall_Museum_by_Ameya_Clicks.jpg`, `CSMVS_lawn_and_statue_(46062).jpg`, `Chhatrapati_shivaji_maharaj_...jpg`.
+  3. *Rock-Cut Sanctuaries*: `AJANTA_ELLORA_CAVES.jpg`, `007_Ajatasatru_Worships_the_Buddha.jpg`.
+  4. *Subcontinent Cartography*: `India_1788.jpg` (James Rennell), `India_in_1785.png`, `Abd_al_Samad_Akbar_and_a_Dervish...jpg`.
+  5. *Stone Architecture*: `Hampi_Ruin.jpg`, `01022_Adinatha_temple,_Khajuraho_Madhya_Pradesh_05.jpg`, `A_winter_morning_in_Vijaynagar.jpg`.
+  6. *The Taj Mahal*: `India-6117_-_Taj_Mahal_(2215341546).jpg`.
+  7. *Varanasi Ghats*: `View_of_the_ghats_at_Varanasi.jpg`, `Ghats_of_Varanasi_2025.jpg`.
+  8. *Himalayan Frontier*: `Aerial_photograph_of_the_Himalayas,_Ladakh_01.jpg`, `Entrance_Arch_Kumik_Zanskar_Jun24_A7CR_00957.jpg`, `Chandanwari,...jpg`.
 
 ## Physical book rendering
 

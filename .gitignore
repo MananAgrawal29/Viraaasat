@@ -28,3 +28,11 @@ Thumbs.db
 # Temporary files
 .tmp/
 temp/
+# Large local media assets
+/Viraaasat_Scroll_Film_4K.mp4
+/India_Scene_at_the_well.zip
+
+
+# Large cinematic media and source archives
+*.mp4
+*.zip

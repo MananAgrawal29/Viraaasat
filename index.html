@@ -4,121 +4,300 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#191b18" />
-    <meta name="description" content="Viraaasat is an independent publication making room for deeper, more curious stories about India." />
-    <title>Viraaasat — India, a story still unfolding</title>
+    <meta name="description" content="Viraaasat is an independent publication exploring India in all its complexity — a cinematic, archival journey through history, landscape, and living heritage." />
+    <title>Viraaasat — India, in all its complexity</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?rev=8" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css?v=3.0" />
     <script src="./assets/gsap.min.js" defer></script>
     <script src="./assets/ScrollTrigger.min.js" defer></script>
-    <script src="./main.js?rev=21" defer></script>
+    <script src="./main.js?v=3.0" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#act-archive">Skip the cinematic opening</a>
+    <a class="skip-link" href="#act-archive">Skip to the archive</a>
+    <a class="skip-link" href="#journal" style="left: 12rem;">Skip to the journal</a>
+
     <header class="site-header">
-      <a class="wordmark" href="#top" aria-label="Viraaasat home">viraaasat<span>.</span></a>
-      <p class="header-note">An independent publication<br />about India, in all its complexity.</p>
+      <div class="header-brand-group">
+        <a class="wordmark" href="#top" aria-label="Viraaasat home">viraaasat<span>.</span></a>
+        <p class="header-note">An independent publication<br />about India, in all its complexity.</p>
+      </div>
       <nav class="primary-nav" aria-label="Journey chapters">
-        <a href="#act-archive">The archive</a><a href="#act-map">Map room</a><a href="#act-open-book">Open book</a>
+        <a href="#act-archive">The archive</a>
+        <a href="#act-museum">The museum</a>
+        <a href="#act-ajanta">Ajanta &amp; Ellora</a>
+        <a href="#act-maps">Maps</a>
+        <a href="#act-hampi">Hampi</a>
+        <a href="#act-taj">Taj Mahal</a>
+        <a href="#act-varanasi">Varanasi</a>
+        <a href="#act-himalayas">Himalayas</a>
       </nav>
       <a class="menu-index" href="#journal"><span>Enter the journal</span><span aria-hidden="true">↘</span></a>
     </header>
 
     <main id="top">
       <div class="journey" id="journey">
+        <!-- Pinned Cinematic Stage with Multi-layer Visual Compositor -->
         <div class="museum-stage" aria-hidden="true">
-          <div class="stage-world">
-            <div class="archive-room"></div>
-            <div class="book-stage" data-book-stage>
-              <div class="book-poster" aria-hidden="true"><span>वि</span><small>VIRAAASAT · AN OPEN ARCHIVE</small></div>
-              <canvas class="book-renderer" aria-hidden="true"></canvas>
+          <!-- Continuous 60fps Visual Layers with Narrative Transitions -->
+          <div class="stage-visuals">
+            <!-- Scene 0: Architectural Threshold -->
+            <div class="scene-layer scene-layer--0" data-scene-layer="0">
+              <div class="scene-media" style="background-image: url('./assets/curated-pack/Beautiful_windows.jpg');"></div>
             </div>
-            <div class="time-pages">
-              <figure class="time-page time-page--manuscript"><img data-scene-src="./assets/kalpa-sutra-folio-1800.jpg" data-scene-srcset="./assets/kalpa-sutra-folio-1800.jpg 1800w, ./assets/kalpa-sutra-folio.jpg 3400w" data-scene-sizes="(max-width: 800px) 33vw, 25vw" alt="" /></figure>
-              <figure class="time-page time-page--stone"><img data-scene-src="./assets/mathura-railing-pillar-1800.jpg" data-scene-srcset="./assets/mathura-railing-pillar-1800.jpg 1129w, ./assets/mathura-railing-pillar.jpg 2132w" data-scene-sizes="(max-width: 800px) 33vw, 25vw" alt="" /></figure>
+            <!-- Scene 1: The Living Archive / Museum -->
+            <div class="scene-layer scene-layer--1" data-scene-layer="1">
+              <div class="scene-media" style="background-image: url('./assets/curated-pack/Albert_Hall_Museum_by_Ameya_Clicks.jpg');"></div>
             </div>
-            <div class="gallery-room">
-              <div class="gallery-ceiling"></div><div class="gallery-left-wall"></div><div class="gallery-back-wall"></div><div class="gallery-side-wall"></div><div class="gallery-floor"></div>
-              <figure class="continuity-folio"><img data-scene-src="./assets/gita-govinda-folio-1800.jpg" data-scene-srcset="./assets/gita-govinda-folio-1800.jpg 1800w, ./assets/gita-govinda-folio.jpg 3400w" data-scene-sizes="(max-width: 800px) 45vw, 26vw" alt="" /><figcaption>Gita Govinda · Mewar · c. 1680</figcaption></figure>
-              <figure class="exhibit exhibit--one"><img data-scene-src="./assets/mathura-railing-pillar-1800.jpg" data-scene-srcset="./assets/mathura-railing-pillar-1800.jpg 1129w, ./assets/mathura-railing-pillar.jpg 2132w" data-scene-sizes="(max-width: 800px) 37vw, 19vw" alt="" /><figcaption>Mathura · Kushan period · c. 100 CE</figcaption></figure>
-              <figure class="exhibit exhibit--three"><img data-scene-src="./assets/kalpa-sutra-folio-1800.jpg" data-scene-srcset="./assets/kalpa-sutra-folio-1800.jpg 1800w, ./assets/kalpa-sutra-folio.jpg 3400w" data-scene-sizes="(max-width: 800px) 37vw, 19vw" alt="" /><figcaption>Kalpa-sutra · c. 1475–1500</figcaption></figure>
-              <div class="gallery-doorway"></div>
+            <!-- Scene 2: Ajanta & Ellora Basalt Caves -->
+            <div class="scene-layer scene-layer--2" data-scene-layer="2">
+              <div class="scene-media" style="background-image: url('./assets/curated-pack/AJANTA_ELLORA_CAVES.jpg');"></div>
             </div>
-            <div class="map-room">
-              <div class="map-table"></div>
-              <figure class="map-plate">
-                <img class="physical-map" data-scene-src="./assets/subcontinent-physical-map.svg" alt="" />
-                <img class="night-map" data-scene-src="./assets/nightlights-india-2023-4k.jpg" alt="" />
-              </figure>
-              <div class="map-register map-register--physical"><span>PHYSICAL GEOGRAPHY · SOUTH ASIA</span><span>NATURAL EARTH 1:10M DATA · NO POLITICAL BOUNDARIES</span></div>
-              <div class="map-register map-register--night"><span>VIIRS NIGHT-LIGHTS COMPOSITE · 2023</span><span>NASA / NOAA · INDIA-CENTERED VIEW</span></div>
+            <!-- Scene 3: Historical Maps of the Subcontinent -->
+            <div class="scene-layer scene-layer--3" data-scene-layer="3">
+              <div class="scene-media" style="background-image: url('./assets/curated-pack/India_1788.jpg');"></div>
+            </div>
+            <!-- Scene 4: The Stone Realm / Hampi -->
+            <div class="scene-layer scene-layer--4" data-scene-layer="4">
+              <div class="scene-media" style="background-image: url('./assets/curated-pack/Hampi_Ruin.jpg');"></div>
+            </div>
+            <!-- Scene 5: The Taj Mahal -->
+            <div class="scene-layer scene-layer--5" data-scene-layer="5">
+              <div class="scene-media" style="background-image: url('./assets/curated-pack/taj-mahal-riverfront.jpg');"></div>
+            </div>
+            <!-- Scene 6: Varanasi & Living Heritage -->
+            <div class="scene-layer scene-layer--6" data-scene-layer="6">
+              <div class="scene-media" style="background-image: url('./assets/curated-pack/View_of_the_ghats_at_Varanasi.jpg');"></div>
+            </div>
+            <!-- Scene 7: The Himalayan Frontier -->
+            <div class="scene-layer scene-layer--7" data-scene-layer="7">
+              <div class="scene-media" style="background-image: url('./assets/curated-pack/Aerial_photograph_of_the_Himalayas,_Ladakh_01.jpg');"></div>
             </div>
           </div>
+
+          <!-- Video Layer (Synchronized hardware playback) -->
+          <div class="stage-film-wrap">
+            <video
+              class="stage-video"
+              playsinline
+              muted
+              preload="none"
+              src="./assets/video/Viraaasat_Scroll_Film_4K.mp4"
+            ></video>
+            <div class="stage-cinematic-veil"></div>
+          </div>
+
+          <!-- Restrained Editorial Frame & Vignette -->
           <div class="stage-frame"></div>
           <div class="stage-vignette"></div>
-          <div class="stage-header"><span class="stage-act">ACT I</span><span class="stage-location">THE ARCHIVE AWAKENS</span></div>
-          <div class="stage-counter"><span>01</span><i></i><span>06</span></div>
+          
+          <!-- Scene HUD Elements -->
+          <div class="stage-header">
+            <span class="stage-act">ACT I</span>
+            <span class="stage-location">THE THRESHOLD</span>
+          </div>
+
+          <div class="stage-timeline">
+            <div class="timeline-bar"><div class="timeline-progress"></div></div>
+            <div class="timeline-markers">
+              <span class="marker active" data-act-idx="0">01</span>
+              <span class="marker" data-act-idx="1">02</span>
+              <span class="marker" data-act-idx="2">03</span>
+              <span class="marker" data-act-idx="3">04</span>
+              <span class="marker" data-act-idx="4">05</span>
+              <span class="marker" data-act-idx="5">06</span>
+              <span class="marker" data-act-idx="6">07</span>
+              <span class="marker" data-act-idx="7">08</span>
+            </div>
+          </div>
+
+          <div class="stage-counter">
+            <span class="counter-current">01</span>
+            <i></i>
+            <span class="counter-total">08</span>
+          </div>
+
+          <div class="film-scroll-indicator">
+            <span class="indicator-mouse"><span class="wheel"></span></span>
+            <span class="indicator-label">SCROLL TO SCRUB FILM</span>
+          </div>
         </div>
 
+        <!-- 8 Orchestrated Editorial Acts with Contained Placard Cards -->
         <div class="act-copy">
+          <!-- Act I: The Archive & Architectural details (0.0s – 4.0s) -->
           <section class="act act--opening" id="act-archive" data-act="0" aria-labelledby="title-archive">
-            <div class="act-copy-inner act-copy-inner--opening">
-              <p class="act-kicker">A living archive · Volume 01</p>
-              <h1 id="title-archive">India,<br /><em>a story still unfolding.</em></h1>
-              <p class="act-deck">A country cannot be held in one frame. Begin with the traces it leaves behind.</p>
-              <a class="scroll-cue" href="#act-pages"><span>Open the archive</span><span aria-hidden="true">↓</span></a>
-              <figure class="fallback-art fallback-book-art" aria-label="A Viraaasat archive volume, bound in dark leather with a brass mark."><div class="fallback-book-cover" aria-hidden="true"><span>वि</span><small>VIRAAASAT · AN OPEN ARCHIVE</small></div><figcaption>The archive opens through material traces, kept in their own contexts.</figcaption></figure>
+            <div class="act-card act-card--opening">
+              <div class="act-card-header">
+                <span class="act-kicker">Prologue · The Threshold</span>
+                <span class="act-specimen-stamp">SPECIMEN 01 / 08</span>
+              </div>
+              <h1 id="title-archive">India,<br /><em>is not one story.</em></h1>
+              <p class="act-deck">A country cannot be held in one frame. Begin with the traces it leaves behind: deep stepwells, carved stones, water, and ancient thresholds.</p>
+              <div class="object-notes">
+                <span>SEQUENCE 01 · 00:00 – 00:04</span>
+                <span>STEPWELL ARCHITECTURE &amp; JALI LATTICEWORK</span>
+              </div>
+              <a class="scroll-cue" href="#act-museum"><span>Scroll into the film</span><span aria-hidden="true">↓</span></a>
+              <figure class="fallback-art" aria-label="Curated archival photograph of an Indian stepwell scene and entrance architecture.">
+                <div class="fallback-art--row">
+                  <img src="./assets/curated-pack/India_Scene_at_the_well.jpg" alt="Scene at the well, architectural study." />
+                  <img src="./assets/curated-pack/Eastern_entrance.jpg" alt="Carved stone eastern entrance arch." />
+                </div>
+                <figcaption>Historical architectural studies · Viraaasat Archive</figcaption>
+              </figure>
             </div>
           </section>
-          <section class="act" id="act-pages" data-act="1" aria-labelledby="title-pages">
-            <div class="act-copy-inner">
-              <p class="act-kicker">Act II · Pages of time</p>
-              <h2 id="title-pages">A leaf. A line.<br /><em>A world held in pigment.</em></h2>
-              <p class="act-deck">A Mathura railing pillar, a Jain manuscript folio, and a Gita Govinda painting survive in radically different forms. They are not one timeline; each is a trace with its own material, place and context.</p>
-              <div class="object-notes"><span>c. 100 CE · railing pillar, Mathura</span><span>c. 1475–1500 · Kalpa-sutra manuscript</span><span>c. 1680 · Gita Govinda folio, Mewar</span></div>
-              <figure class="fallback-art fallback-art--row"><img src="./assets/mathura-railing-pillar-1800.jpg" srcset="./assets/mathura-railing-pillar-1800.jpg 1129w, ./assets/mathura-railing-pillar.jpg 2132w" sizes="(max-width: 800px) 100vw, 31rem" alt="Carved railing pillar from Mathura, c. 100 CE." /><img src="./assets/kalpa-sutra-folio-1800.jpg" srcset="./assets/kalpa-sutra-folio-1800.jpg 1800w, ./assets/kalpa-sutra-folio.jpg 3400w" sizes="(max-width: 800px) 100vw, 31rem" alt="Kalpa-sutra manuscript folio, c. 1475–1500." /><img src="./assets/gita-govinda-folio-1800.jpg" srcset="./assets/gita-govinda-folio-1800.jpg 1800w, ./assets/gita-govinda-folio.jpg 3400w" sizes="(max-width: 800px) 100vw, 31rem" alt="Gita Govinda painting, c. 1680, from Mewar." /></figure>
+
+          <!-- Act II: Entering the Museum (4.0s – 8.0s) -->
+          <section class="act" id="act-museum" data-act="1" aria-labelledby="title-museum">
+            <div class="act-card">
+              <div class="act-card-header">
+                <span class="act-kicker">Act II · The Living Archive</span>
+                <span class="act-specimen-stamp">SPECIMEN 02 / 08</span>
+              </div>
+              <h2 id="title-museum">Traces preserved,<br /><em>questions held open.</em></h2>
+              <p class="act-deck">Entering the museum halls: Albert Hall, CSMVS, corridors where centuries converse. Heritage is not a frozen relic behind glass, but a dialogue across generations.</p>
+              <div class="object-notes">
+                <span>SEQUENCE 02 · 00:04 – 00:08</span>
+                <span>MUSEUM CORRIDORS · ALBERT HALL &amp; CSMVS</span>
+              </div>
+              <figure class="fallback-art" aria-label="Grand museum gallery displaying Indian art.">
+                <img src="./assets/curated-pack/Albert_Hall_Museum_by_Ameya_Clicks.jpg" alt="Albert Hall Museum facade and architecture, Jaipur." />
+                <figcaption>Albert Hall Museum, Jaipur · Archival collection</figcaption>
+              </figure>
             </div>
           </section>
-          <section class="act" id="act-gallery" data-act="2" aria-labelledby="title-gallery">
-            <div class="act-copy-inner">
-              <p class="act-kicker">Act III · The museum comes alive</p>
-              <h2 id="title-gallery">The page becomes<br /><em>a place to stand.</em></h2>
-              <p class="act-deck">The Gita Govinda folio holds the far wall. A Mathura pillar edges into view nearby; a manuscript waits deeper in the next alcove. The page has not become an invented landscape. It has become a room for looking.</p>
-              <p class="act-footnote">Collection images: The Cleveland Museum of Art, Open Access.</p>
-              <figure class="fallback-art fallback-art--row"><img src="./assets/mathura-railing-pillar-1800.jpg" srcset="./assets/mathura-railing-pillar-1800.jpg 1129w, ./assets/mathura-railing-pillar.jpg 2132w" sizes="(max-width: 800px) 100vw, 31rem" alt="Carved stone railing pillar from Mathura, c. 100 CE." /><img src="./assets/gita-govinda-folio-1800.jpg" srcset="./assets/gita-govinda-folio-1800.jpg 1800w, ./assets/gita-govinda-folio.jpg 3400w" sizes="(max-width: 800px) 100vw, 31rem" alt="Painted Gita Govinda folio from Mewar, c. 1680." /></figure>
+
+          <!-- Act III: Ajanta and Ellora (8.0s – 12.0s) -->
+          <section class="act" id="act-ajanta" data-act="2" aria-labelledby="title-ajanta">
+            <div class="act-card">
+              <div class="act-card-header">
+                <span class="act-kicker">Act III · The Rock-Cut Sanctuaries</span>
+                <span class="act-specimen-stamp">SPECIMEN 03 / 08</span>
+              </div>
+              <h2 id="title-ajanta">Chiseled from the earth,<br /><em>lit by devotion.</em></h2>
+              <p class="act-deck">Monolithic caves hollowed from volcanic basalt at Ajanta and Ellora. Murals, rock carvings, and meditating Buddhas carved directly out of the living mountainside.</p>
+              <div class="object-notes">
+                <span>SEQUENCE 03 · 00:08 – 00:12</span>
+                <span>AJANTA &amp; ELLORA CAVES · 2ND C. BCE – 6TH C. CE</span>
+              </div>
+              <figure class="fallback-art" aria-label="Rock-cut cave temples of Ajanta and Ellora.">
+                <img src="./assets/curated-pack/AJANTA_ELLORA_CAVES.jpg" alt="Panoramic view of Ajanta and Ellora cave complex." />
+                <figcaption>Ajanta and Ellora cave sanctuaries, Maharashtra</figcaption>
+              </figure>
             </div>
           </section>
-          <section class="act" id="act-map" data-act="3" aria-labelledby="title-map">
-            <div class="act-copy-inner">
-              <p class="act-kicker">Act IV · The map room</p>
-              <h2 id="title-map">A map is also<br /><em>a point of view.</em></h2>
-              <p class="act-deck">The frame widens from a single folio to the land and river systems of South Asia. This contemporary physical map carries no political borders; it is a geographic reference, not a map of any historical state.</p>
-              <a class="source-link" href="https://www.naturalearthdata.com/downloads/10m-physical-vectors/" target="_blank" rel="noreferrer">Natural Earth · 1:10m physical vectors ↗</a>
-              <figure class="fallback-art fallback-art--map"><img src="./assets/subcontinent-physical-map.svg" alt="Physical map of the Indian subcontinent and surrounding South Asia, showing land, coastline and major rivers without political boundaries." /><figcaption>Natural Earth physical geography · no political boundaries shown</figcaption></figure>
+
+          <!-- Act IV: Historical Maps of the Subcontinent (12.0s – 16.0s) -->
+          <section class="act" id="act-maps" data-act="3" aria-labelledby="title-maps">
+            <div class="act-card">
+              <div class="act-card-header">
+                <span class="act-kicker">Act IV · Cartography of the Subcontinent</span>
+                <span class="act-specimen-stamp">SPECIMEN 04 / 08</span>
+              </div>
+              <h2 id="title-maps">A map is always<br /><em>a point of view.</em></h2>
+              <p class="act-deck">From Rennell’s 18th-century survey lines to Mughal miniatures, the subcontinent has been charted, interpreted, and reimagined. Yet the rivers and mountains precede every political border.</p>
+              <div class="object-notes">
+                <span>SEQUENCE 04 · 00:12 – 00:16</span>
+                <span>HISTORICAL CARTOGRAPHY OF HINDOOSTAN · 1785–1788</span>
+              </div>
+              <figure class="fallback-art" aria-label="Historical map of India from 1788.">
+                <img src="./assets/curated-pack/India_1788.jpg" alt="Historical map of Hindoostan, 1788." />
+                <figcaption>James Rennell, Map of Hindoostan · 1788</figcaption>
+              </figure>
             </div>
           </section>
-          <section class="act" id="act-frame" data-act="4" aria-labelledby="title-frame">
-            <div class="act-copy-inner">
-              <p class="act-kicker">Act V · History is still happening</p>
-              <h2 id="title-frame">The archive<br /><em>is not finished.</em></h2>
-              <p class="act-deck">At night, satellite instruments register light from human activity across this same broad region. It is one partial view of the present—not a measure of everything happening on the ground.</p>
-              <a class="source-link" href="https://svs.gsfc.nasa.gov/5276/" target="_blank" rel="noreferrer">NASA Black Marble · 2023 annual average ↗</a>
-              <figure class="fallback-art fallback-art--night"><img src="./assets/nightlights-india-2023-4k.jpg" alt="NASA Black Marble composite centered on India, showing night-time lights in 2023." /><figcaption>VIIRS annual-average night lights · 2023 · NASA / NOAA</figcaption></figure>
+
+          <!-- Act V: Hampi and Historic Architecture (16.0s – 20.0s) -->
+          <section class="act" id="act-hampi" data-act="4" aria-labelledby="title-hampi">
+            <div class="act-card">
+              <div class="act-card-header">
+                <span class="act-kicker">Act V · The Stone Realm</span>
+                <span class="act-specimen-stamp">SPECIMEN 05 / 08</span>
+              </div>
+              <h2 id="title-hampi">Boulders, granite,<br /><em>and empires remembered.</em></h2>
+              <p class="act-deck">The colossal ruins of Vijayanagara rise among surreal granite boulders along the Tungabhadra. An architectural flowering at the crossroads of medieval Southern India.</p>
+              <div class="object-notes">
+                <span>SEQUENCE 05 · 00:16 – 00:20</span>
+                <span>VIJAYANAGARA ARCHITECTURE · HAMPI &amp; KHAJURAHO</span>
+              </div>
+              <figure class="fallback-art" aria-label="Ruins of Hampi with stone structures amidst granite boulders.">
+                <img src="./assets/curated-pack/Hampi_Ruin.jpg" alt="Ancient stone ruins and temple columns at Hampi." />
+                <figcaption>The ruins of Vijayanagara, Hampi, Karnataka</figcaption>
+              </figure>
             </div>
           </section>
-          <section class="act act--closing" id="act-open-book" data-act="5" aria-labelledby="title-open-book">
-            <div class="act-copy-inner">
-              <p class="act-kicker">Act VI · The open book</p>
-              <h2 id="title-open-book">The story<br /><em>stays open.</em></h2>
-              <p class="act-deck">What you have crossed is not a complete history. It is an invitation to look closer, follow evidence, and make room for more than one view.</p>
+
+          <!-- Act VI: The Taj Mahal (20.0s – 24.0s) -->
+          <section class="act" id="act-taj" data-act="5" aria-labelledby="title-taj">
+            <div class="act-card">
+              <div class="act-card-header">
+                <span class="act-kicker">Act VI · The Monument</span>
+                <span class="act-specimen-stamp">SPECIMEN 06 / 08</span>
+              </div>
+              <h2 id="title-taj">Symmetry, memory,<br /><em>and transience.</em></h2>
+              <p class="act-deck">White Makrana marble reflecting the changing light of the Yamuna. Monumental devotion and precision engineering balanced against the fragility of human power.</p>
+              <div class="object-notes">
+                <span>SEQUENCE 06 · 00:20 – 00:24</span>
+                <span>TAJ MAHAL · AGRA · 1632–1653 CE</span>
+              </div>
+              <figure class="fallback-art" aria-label="Taj Mahal in the morning light along the Yamuna river.">
+                <img src="./assets/curated-pack/taj-mahal-riverfront.jpg" alt="The Taj Mahal reflecting across the water." />
+                <figcaption>The Taj Mahal, Agra · Mughal riverfront architecture</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <!-- Act VII: Varanasi and Living Heritage (24.0s – 28.0s) -->
+          <section class="act" id="act-varanasi" data-act="6" aria-labelledby="title-varanasi">
+            <div class="act-card">
+              <div class="act-card-header">
+                <span class="act-kicker">Act VII · The Sacred Current</span>
+                <span class="act-specimen-stamp">SPECIMEN 07 / 08</span>
+              </div>
+              <h2 id="title-varanasi">The river carries<br /><em>the morning light.</em></h2>
+              <p class="act-deck">Along the ghats of Varanasi, heritage is not locked in an archive. It is spoken in chants, bathed in sacred currents, illuminated by brass lamps, and lived anew with every sunrise.</p>
+              <div class="object-notes">
+                <span>SEQUENCE 07 · 00:24 – 00:28</span>
+                <span>GHATS OF VARANASI · LIVING CONTINUITY</span>
+              </div>
+              <figure class="fallback-art" aria-label="The historic ghats of Varanasi along the Ganga at dawn.">
+                <img src="./assets/curated-pack/View_of_the_ghats_at_Varanasi.jpg" alt="Panoramic view of Varanasi ghats on the river Ganga." />
+                <figcaption>The Ghats of Varanasi, Uttar Pradesh</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <!-- Act VIII: The Himalayan Landscape (28.0s – 31.875s) -->
+          <section class="act act--closing" id="act-himalayas" data-act="7" aria-labelledby="title-himalayas">
+            <div class="act-card act-card--closing">
+              <div class="act-card-header">
+                <span class="act-kicker">Act VIII · The Horizon</span>
+                <span class="act-specimen-stamp">SPECIMEN 08 / 08</span>
+              </div>
+              <h2 id="title-himalayas">India,<br /><em>in all its complexity.</em></h2>
+              <p class="act-deck">The stark peaks of Ladakh, ancient passes of Zanskar, and high alpine rivers. The film settles where earth meets sky—an invitation to step beyond the prologue into the journal.</p>
+              <div class="object-notes">
+                <span>SEQUENCE 08 · 00:28 – 00:31.8</span>
+                <span>HIMALAYAN FRONTIER · LADAKH &amp; ZANSKAR</span>
+              </div>
+              <figure class="fallback-art" aria-label="Aerial view of snow-capped Himalayan ranges in Ladakh.">
+                <img src="./assets/curated-pack/Aerial_photograph_of_the_Himalayas,_Ladakh_01.jpg" alt="Aerial photograph of the Himalayas in Ladakh." />
+                <figcaption>Trans-Himalayan peaks, Ladakh</figcaption>
+              </figure>
             </div>
           </section>
         </div>
       </div>
 
+      <!-- Journal Introduction (Transitions naturally from the film's climax) -->
       <section class="introduction" id="journal" aria-labelledby="intro-title">
-        <div class="intro-margin"><span class="section-index">A publication in the making</span><span class="intro-glyph" aria-hidden="true">वि</span></div>
+        <div class="intro-margin">
+          <span class="section-index">A publication in the making</span>
+          <span class="intro-glyph" aria-hidden="true">वि</span>
+        </div>
         <div class="intro-content">
           <p class="eyebrow ink-eyebrow">Viraaasat · India, in all its complexity</p>
           <h2 id="intro-title">A place for the<br /><em>whole picture.</em></h2>
@@ -129,17 +308,38 @@
         </div>
       </section>
 
+      <!-- Featured Story Section -->
       <section class="featured" id="featured" aria-labelledby="featured-title">
-        <div class="featured-topline"><span class="section-index">The journal begins</span><span class="feature-status">Editorial desk · In progress</span></div>
+        <div class="featured-topline">
+          <span class="section-index">The journal begins</span>
+          <span class="feature-status">Editorial desk · In progress</span>
+        </div>
         <div class="feature-frame">
           <div class="frame-ornament frame-ornament-top">V—01</div>
-          <div class="frame-center"><span class="frame-overline">A frame held open</span><span class="frame-mark" aria-hidden="true">✳</span><h2 id="featured-title">The first story<br /><em>is still being found.</em></h2><p>This space is reserved for the story the editors choose.<br />Its subject, title and direction remain open.</p></div>
-          <div class="frame-ornament frame-ornament-bottom"><span>STORY</span><span>TO BE SELECTED</span></div>
+          <div class="frame-center">
+            <span class="frame-overline">A frame held open</span>
+            <span class="frame-mark" aria-hidden="true">✳</span>
+            <h2 id="featured-title">The first story<br /><em>is still being found.</em></h2>
+            <p>This space is reserved for the story the editors choose.<br />Its subject, title and direction remain open.</p>
+          </div>
+          <div class="frame-ornament frame-ornament-bottom">
+            <span>STORY</span>
+            <span>TO BE SELECTED</span>
+          </div>
         </div>
-        <div class="featured-caption"><span>Every story begins with a question.</span><span>VIRAAASAT / 2026</span></div>
+        <div class="featured-caption">
+          <span>Every story begins with a question.</span>
+          <span>VIRAAASAT / 2026</span>
+        </div>
       </section>
 
-      <footer class="site-footer"><a class="footer-wordmark" href="#top">viraaasat<span>.</span></a><p>See more. Ask better questions.</p><a class="back-top" href="#top">Return to the beginning ↑</a><span class="footer-colophon">An independent publication · India</span></footer>
+      <!-- Site Footer -->
+      <footer class="site-footer">
+        <a class="footer-wordmark" href="#top">viraaasat<span>.</span></a>
+        <p>See more. Ask better questions.</p>
+        <a class="back-top" href="#top">Return to the beginning ↑</a>
+        <span class="footer-colophon">An independent publication · India</span>
+      </footer>
     </main>
   </body>
 </html>
